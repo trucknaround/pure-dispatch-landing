@@ -287,6 +287,159 @@
             color: #d1d5db;
             font-size: 0.95rem;
         }
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .pricing-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .pricing-card:hover {
+            border-color: #f3f4f6;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .pricing-card.featured {
+            border-color: #22c55e;
+            position: relative;
+        }
+        .pricing-card.featured::before {
+            content: 'BEST VALUE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e;
+            color: #000;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .pricing-card h3 {
+            color: #ffffff;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .pricing-amount {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+        }
+        .pricing-amount span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #9ca3af;
+        }
+        .pricing-savings {
+            color: #22c55e;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .pricing-features li {
+            color: #d1d5db;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+        .pricing-features li::before {
+            content: '✓';
+            color: #22c55e;
+            margin-right: 0.5rem;
+        }
+        /* Integrations Section */
+        .integrations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .integration-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .integration-card:hover {
+            border-color: #f3f4f6;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .integration-logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .integration-card h3 {
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+        .integration-card p {
+            color: #d1d5db;
+            font-size: 0.95rem;
+        }
+        .integration-badge {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        /* About Section */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-content p {
+            color: #d1d5db;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        /* Form Section */
         #waitlist-form-section {
             background: rgba(0, 0, 0, 0.7);
             border: 2px solid #ffffff;
@@ -437,6 +590,8 @@
             .btn { width: 100%; text-align: center; }
             .form-row { grid-template-columns: 1fr; }
             #waitlist-form-section { padding: 2rem; margin: 2rem auto; }
+            .about-stats { grid-template-columns: 1fr; gap: 1rem; }
+            .pricing-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -459,6 +614,7 @@
         <div class="nav-logo">PURE DISPATCH</div>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
+            <li><a href="#integrations">Integrations</a></li>
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#about">About</a></li>
         </ul>
@@ -476,6 +632,7 @@
             </div>
         </section>
         
+        <!-- Features Section -->
         <section id="features" class="section">
             <h2 class="section-title">FEATURES BUILT FOR DRIVERS</h2>
             <p class="section-subtitle">Everything you need to manage your business in one AI-powered app.</p>
@@ -495,14 +652,116 @@
                     <h3>Earnings Analytics</h3>
                     <p>Track profitability by lane, broker, and season. Know exactly where you're making money.</p>
                 </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎤</div>
+                    <h3>Voice-First Interface</h3>
+                    <p>Talk to Pure like a real dispatcher. Hands-free operation while you're on the road.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>DOT/MC Verification</h3>
+                    <p>Automatic compliance checks and document management to keep you legal and running.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Ready</h3>
+                    <p>Full functionality on any device. Your dispatcher goes wherever you go.</p>
+                </div>
             </div>
         </section>
         
+        <!-- Integrations Section -->
+        <section id="integrations" class="section">
+            <h2 class="section-title">LOAD BOARD INTEGRATIONS</h2>
+            <p class="section-subtitle">Connect to the industry's top load boards for seamless load matching.</p>
+            <div class="integrations-grid">
+                <div class="integration-card">
+                    <div class="integration-logo">📦</div>
+                    <h3>DAT Load Board</h3>
+                    <p>Access North America's largest load board network. Search thousands of loads with real-time rate data and market insights.</p>
+                    <span class="integration-badge">Coming Q1 2026</span>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-logo">🚛</div>
+                    <h3>123Loadboard</h3>
+                    <p>Connect to millions of loads posted daily. Get instant alerts for loads matching your lanes and equipment type.</p>
+                    <span class="integration-badge">Coming Q1 2026</span>
+                </div>
+                <div class="integration-card">
+                    <div class="integration-logo">🔗</div>
+                    <h3>More Coming Soon</h3>
+                    <p>We're actively working on partnerships with additional load boards and TMS platforms to give you maximum coverage.</p>
+                    <span class="integration-badge">In Development</span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Pricing Section -->
+        <section id="pricing" class="section">
+            <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
+            <p class="section-subtitle">No hidden fees. No per-load charges. Just one flat rate.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Monthly</h3>
+                    <div class="pricing-amount">$50<span>/month</span></div>
+                    <div class="pricing-savings">&nbsp;</div>
+                    <ul class="pricing-features">
+                        <li>Unlimited load searches</li>
+                        <li>AI-powered broker communication</li>
+                        <li>Earnings analytics dashboard</li>
+                        <li>Voice-first interface</li>
+                        <li>DOT/MC verification</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <button class="btn btn-secondary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Annual</h3>
+                    <div class="pricing-amount">$300<span>/year</span></div>
+                    <div class="pricing-savings">Save $300/year (50% off!)</div>
+                    <ul class="pricing-features">
+                        <li>Everything in Monthly</li>
+                        <li>2 months FREE</li>
+                        <li>Early access to new features</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom lane alerts</li>
+                        <li>API access (coming soon)</li>
+                    </ul>
+                    <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="section">
+            <h2 class="section-title">ABOUT PURE DISPATCH</h2>
+            <p class="section-subtitle">Built by people who understand trucking.</p>
+            <div class="about-content">
+                <p>Pure Dispatch was born from a simple frustration: owner-operators and small carriers deserve the same dispatch technology as the big fleets, without the big price tag.</p>
+                <p>We're building an AI dispatcher that actually understands the trucking business—one that can find profitable loads, handle broker negotiations, and keep you compliant, all while you focus on driving.</p>
+                <p>Based in Gloucester City, NJ, we're a small team with a big mission: to level the playing field for independent truckers.</p>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">Q1-Q2</div>
+                        <div class="stat-label">2026 Launch</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">AI Availability</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Driver Focused</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Waitlist Form Section -->
         <section id="waitlist-form-section">
             <h2 class="waitlist-title">Join the Waitlist</h2>
-            <p class="waitlist-subtitle">Pure Dispatch launches Q1-Q2 2026. Early members get priority access.</p>
+            <p class="waitlist-subtitle">Be first in line when Pure Dispatch launches. Early members get priority access.</p>
             
-            <!-- Using actual form element for Formspree -->
             <form id="waitlistForm" action="https://formspree.io/f/xyzvejzk" method="POST">
                 <div class="form-row">
                     <div class="form-group">
@@ -542,6 +801,13 @@
             <div class="footer-section">
                 <h4>Pure Dispatch</h4>
                 <p>Your AI-powered virtual dispatcher for owner-operators and small carriers.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <p><a href="#features">Features</a></p>
+                <p><a href="#integrations">Integrations</a></p>
+                <p><a href="#pricing">Pricing</a></p>
+                <p><a href="#about">About</a></p>
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
@@ -612,7 +878,7 @@
         document.removeEventListener('click', firstClick);
     }, { once: true });
     
-    // ===== FORM SUBMISSION WITH FETCH =====
+    // ===== FORM SUBMISSION =====
     var form = document.getElementById('waitlistForm');
     var submitBtn = document.getElementById('submitBtn');
     var formStatus = document.getElementById('formStatus');
@@ -620,7 +886,6 @@
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Validate
         var name = document.getElementById('name').value.trim();
         var email = document.getElementById('email').value.trim();
         
@@ -636,16 +901,13 @@
             return;
         }
         
-        // Disable button
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
         formStatus.className = '';
         formStatus.style.display = 'none';
         
-        // Get form data
         var data = new FormData(form);
         
-        // Submit using fetch
         fetch(form.action, {
             method: 'POST',
             body: data,
@@ -672,7 +934,6 @@
         })
         .catch(function(error) {
             console.error('AJAX failed, falling back to native submit:', error);
-            // AJAX failed - use native form submission as fallback
             form.submit();
         });
     });
