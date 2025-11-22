@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pure Dispatch - Your AI-Powered Virtual Dispatcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .voice-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        .voice-indicator.active {
+            display: flex;
+        }
+        .sound-waves {
+            display: flex;
+            gap: 0.25rem;
+            align-items: flex-end;
+        }
+        .sound-wave {
+            width: 3px;
+            background: #ffffff;
+            border-radius: 2px;
+            animation: wave 0.6s ease-in-out infinite;
+        }
+        .sound-wave:nth-child(1) { height: 4px; animation-delay: 0s; }
+        .sound-wave:nth-child(2) { height: 8px; animation-delay: 0.1s; }
+        .sound-wave:nth-child(3) { height: 12px; animation-delay: 0.2s; }
+        .sound-wave:nth-child(4) { height: 8px; animation-delay: 0.3s; }
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+        .voice-text {
+            font-size: 0.85rem;
+            color: #ffffff;
+            font-weight: 500;
+        }
+        #greetingBtn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 999;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        #greetingBtn:hover {
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+        #greetingBtn.hidden {
+            display: none;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #ffffff;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        .nav-cta {
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: box-shadow 0.3s;
+        }
+        .nav-cta:hover {
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-sizing: border-box;
+            width: 100%;
+            overflow: hidden;
+        }
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6, #e5e7eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+        .tagline {
+            font-size: 1.75rem;
+            color: #f3f4f6;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .subtitle {
+            font-size: 1.1rem;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.75rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+        .btn-secondary:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+        .section {
+            margin: 4rem 0;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+            overflow: hidden;
+        }
+        .feature-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            border-color: #f3f4f6;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+        .feature-card p {
+            color: #d1d5db;
+            font-size: 0.95rem;
+        }
+        #waitlist-form-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ffffff;
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: 4rem auto;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .waitlist-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .waitlist-subtitle {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffffff;
+            color: #f3f4f6;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #f3f4f6;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+        #submitBtn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: box-shadow 0.3s, opacity 0.3s;
+            min-height: 48px;
+        }
+        #submitBtn:hover:not(:disabled) {
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+        #submitBtn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        #formStatus {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        #formStatus.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            color: #22c55e;
+        }
+        #formStatus.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #ef4444;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid #ffffff;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-section h4 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .footer-section a,
+        .footer-section p {
+            color: #d1d5db;
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: #ffffff;
+        }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 1rem; }
+            .nav-links { display: none; }
+            .logo { font-size: 2rem; }
+            .tagline { font-size: 1.25rem; }
+            .section-title { font-size: 1.5rem; }
+            .cta-container { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn { width: 100%; text-align: center; }
+            .form-row { grid-template-columns: 1fr; }
+            #waitlist-form-section { padding: 2rem; margin: 2rem auto; }
+        }
+    </style>
+</head>
+<body>
+    <div id="starfield"></div>
+    
+    <button id="greetingBtn">🎤 Listen to Pure</button>
+    
+    <div class="voice-indicator" id="voiceIndicator">
+        <div class="sound-waves">
+            <div class="sound-wave"></div>
+            <div class="sound-wave"></div>
+            <div class="sound-wave"></div>
+            <div class="sound-wave"></div>
+        </div>
+        <span class="voice-text">Pure is speaking...</span>
+    </div>
+    
+    <nav class="nav">
+        <div class="nav-logo">PURE DISPATCH</div>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <button class="nav-cta" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+    </nav>
+    
+    <div class="content">
+        <section class="hero">
+            <h1 class="logo">PURE DISPATCH</h1>
+            <p class="tagline">Your AI-Powered Virtual Dispatcher</p>
+            <p class="subtitle">Stop waiting on hold. Stop missing loads. Get an AI dispatcher in your pocket.</p>
+            <div class="cta-container">
+                <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                <button class="btn btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More</button>
+            </div>
+        </section>
+        
+        <section id="features" class="section">
+            <h2 class="section-title">FEATURES BUILT FOR DRIVERS</h2>
+            <p class="section-subtitle">Everything you need to manage your business in one AI-powered app.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Smart Load Search</h3>
+                    <p>Find the best loads instantly. Our AI filters for profit margins, fuel costs, and your preferred routes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Broker Communication</h3>
+                    <p>Compose professional emails, ask questions, and negotiate rates. Pure handles the communication.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Earnings Analytics</h3>
+                    <p>Track profitability by lane, broker, and season. Know exactly where you're making money.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="waitlist-form-section">
+            <h2 class="waitlist-title">Join the Waitlist</h2>
+            <p class="waitlist-subtitle">Pure Dispatch launches Q1-Q2 2026. Early members get priority access.</p>
+            
+            <!-- Using actual form element for Formspree -->
+            <form id="waitlistForm" action="https://formspree.io/f/xyzvejzk" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company">Company / Operating Name</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                
+                <div class="form-group full">
+                    <label for="message">What are you most excited about?</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+                
+                <button type="submit" id="submitBtn">Submit</button>
+                <div id="formStatus"></div>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Pure Dispatch</h4>
+                <p>Your AI-powered virtual dispatcher for owner-operators and small carriers.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>Email: contact@puredispatch.io</p>
+                <p>Location: Gloucester City, NJ</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pure Dispatch. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    // ===== STARFIELD =====
+    (function() {
+        var starfield = document.getElementById('starfield');
+        for (var i = 0; i < 100; i++) {
+            var star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starfield.appendChild(star);
+        }
+    })();
+    
+    // ===== VOICE GREETING =====
+    var hasPlayedGreeting = false;
+    
+    function playGreeting() {
+        if (hasPlayedGreeting) return;
+        hasPlayedGreeting = true;
+        
+        document.getElementById('greetingBtn').classList.add('hidden');
+        document.getElementById('voiceIndicator').classList.add('active');
+        
+        window.speechSynthesis.cancel();
+        
+        var utterance = new SpeechSynthesisUtterance("Hello Driver. I'm Pure. Ready to find you some loads?");
+        utterance.volume = 0.85;
+        utterance.rate = 0.95;
+        utterance.pitch = 1.0;
+        utterance.lang = 'en-US';
+        
+        var voices = window.speechSynthesis.getVoices();
+        for (var i = 0; i < voices.length; i++) {
+            if (voices[i].name.indexOf('Female') > -1 || voices[i].name.indexOf('Samantha') > -1) {
+                utterance.voice = voices[i];
+                break;
+            }
+        }
+        
+        utterance.onend = function() {
+            document.getElementById('voiceIndicator').classList.remove('active');
+        };
+        
+        utterance.onerror = function() {
+            document.getElementById('voiceIndicator').classList.remove('active');
+        };
+        
+        window.speechSynthesis.speak(utterance);
+    }
+    
+    document.getElementById('greetingBtn').onclick = playGreeting;
+    
+    document.addEventListener('click', function firstClick() {
+        setTimeout(playGreeting, 300);
+        document.removeEventListener('click', firstClick);
+    }, { once: true });
+    
+    // ===== FORM SUBMISSION WITH FETCH =====
+    var form = document.getElementById('waitlistForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var formStatus = document.getElementById('formStatus');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        
+        if (!name) {
+            showStatus('❌ Please enter your name.', 'error');
+            document.getElementById('name').focus();
+            return;
+        }
+        
+        if (!email || !email.includes('@') || !email.includes('.')) {
+            showStatus('❌ Please enter a valid email address.', 'error');
+            document.getElementById('email').focus();
+            return;
+        }
+        
+        // Disable button
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+        formStatus.className = '';
+        formStatus.style.display = 'none';
+        
+        // Get form data
+        var data = new FormData(form);
+        
+        // Submit using fetch
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(function(response) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
+            
+            if (response.ok) {
+                showStatus('✅ Success! You\'re on the waitlist. Check your email for confirmation.', 'success');
+                form.reset();
+            } else {
+                return response.json().then(function(data) {
+                    if (data.errors) {
+                        showStatus('❌ ' + data.errors.map(function(e) { return e.message; }).join(', '), 'error');
+                    } else {
+                        showStatus('❌ Something went wrong. Please try again.', 'error');
+                    }
+                });
+            }
+        })
+        .catch(function(error) {
+            console.error('AJAX failed, falling back to native submit:', error);
+            // AJAX failed - use native form submission as fallback
+            form.submit();
+        });
+    });
+    
+    function showStatus(message, type) {
+        formStatus.textContent = message;
+        formStatus.className = type;
+        formStatus.style.display = 'block';
+    }
+    </script>
+</body>
+</html>
