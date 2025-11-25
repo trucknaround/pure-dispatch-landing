@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - Pure Dispatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: rgba(0, 0, 0, 0.95);
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+        }
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #d1d5db;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .details {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .details h3 {
+            color: #22c55e;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .details ul {
+            list-style: none;
+            padding: 0;
+        }
+        .details li {
+            padding: 0.5rem 0;
+            color: #d1d5db;
+        }
+        .details li::before {
+            content: '✓';
+            color: #22c55e;
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            transition: box-shadow 0.3s;
+        }
+        .btn:hover {
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🎉</div>
+        <h1>Payment Successful!</h1>
+        <p>Thank you for subscribing to Pure Dispatch. Your payment has been processed successfully.</p>
+        
+        <div class="details">
+            <h3>What Happens Next?</h3>
+            <ul>
+                <li>Check your email for a payment receipt from Stripe</li>
+                <li>You'll receive a welcome email with your account details within 24 hours</li>
+                <li>We'll send you early access instructions as we approach launch</li>
+                <li>Our team will reach out to schedule your onboarding call</li>
+            </ul>
+        </div>
+        
+        <p style="font-size: 0.95rem; color: #9ca3af;">
+            If you have any questions, contact us at <a href="mailto:support@puredispatch.io" style="color: #22c55e; text-decoration: none;">support@puredispatch.io</a>
+        </p>
+        
+        <a href="/" class="btn">Return to Homepage</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled - Pure Dispatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: rgba(0, 0, 0, 0.95);
+            color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #fbbf24;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+        }
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #d1d5db;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .options {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        .options h3 {
+            color: #fbbf24;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .options ul {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            padding: 0.5rem 0;
+            color: #d1d5db;
+        }
+        .options li::before {
+            content: '→';
+            color: #fbbf24;
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+            transition: box-shadow 0.3s;
+        }
+        .btn:hover {
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">💭</div>
+        <h1>Payment Cancelled</h1>
+        <p>No worries! Your payment was not processed. Take your time to decide.</p>
+        
+        <div class="options">
+            <h3>Still Interested?</h3>
+            <ul>
+                <li>Join our waitlist to stay updated on launch</li>
+                <li>Lock in Early Founder pricing before it's gone</li>
+                <li>Questions? Reach out to our team anytime</li>
+            </ul>
+        </div>
+        
+        <p style="font-size: 0.95rem; color: #9ca3af;">
+            Need help deciding? Email us at <a href="mailto:support@puredispatch.io" style="color: #fbbf24; text-decoration: none;">support@puredispatch.io</a>
+        </p>
+        
+        <div>
+            <a href="/#pricing" class="btn">View Pricing Again</a>
+            <a href="/" class="btn btn-secondary">Return to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
