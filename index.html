@@ -1125,7 +1125,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection#81e2eeeff5e0e2f5c1f1f4f3e4e5e8f2f1e0f5e2e9afe2eeaff2e8f5e4" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="fd9e9293899c9e89bd8d888f9899948e8d9c899e95d39e92d38e948998">[email&#160;protected]</span></a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1134,7 +1134,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -1302,23 +1302,27 @@
     }
     
     // ===== STRIPE PAYMENT INTEGRATION =====
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app'; // 
     
     // Price IDs mapping - these map to the backend
     const PRICE_CONFIG = {
         founderMonthly: {
+            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
             name: 'Early Founder Monthly',
             amount: '$50/mo'
         },
         founderAnnual: {
+            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
             name: 'Early Founder Annual',
             amount: '$300/yr'
         },
         standardMonthly: {
+            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
             name: 'Standard Monthly',
             amount: '$99.99/mo'
         },
         standardAnnual: {
+            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
             name: 'Standard Annual',
             amount: '$799.99/yr'
         }
@@ -1383,6 +1387,14 @@
     function handlePayment(priceKey, planName) {
         var button = event.target;
         
+        // Get the actual Stripe Price ID from config
+        var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
+        
+        if (!actualPriceId) {
+            alert('Invalid pricing option. Please try again.');
+            return;
+        }
+        
         // Disable button and show loading state
         button.disabled = true;
         button.classList.add('loading');
@@ -1396,7 +1408,7 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                priceId: priceKey,
+                priceId: actualPriceId,
                 planName: planName
             })
         })
