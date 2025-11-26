@@ -337,7 +337,7 @@
         }
         .pricing-card {
             background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
+            border: 3px solid #ffffff;
             padding: 2.5rem 2rem;
             border-radius: 10px;
             text-align: center;
@@ -349,7 +349,7 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
         .pricing-card.featured {
-            border-color: #fbbf24;
+            border-color: #22c55e;
             position: relative;
         }
         .pricing-card.featured::before {
@@ -358,7 +358,7 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: #000;
             padding: 0.4rem 1.2rem;
             border-radius: 20px;
@@ -970,7 +970,7 @@
             <div class="reviews-grid">
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="review-avatar">🚛</div>
+                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Marcus+Rodriguez&background=3b82f6&color=fff&size=50&bold=true" alt="Marcus Rodriguez" style="border-radius: 50%; width: 50px; height: 50px;"></div>
                         <div class="review-info">
                             <div class="review-name">Marcus Rodriguez</div>
                             <div class="review-role">Owner-Operator • 8 Years</div>
@@ -985,7 +985,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="review-avatar">📦</div>
+                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Sarah+Chen&background=22c55e&color=fff&size=50&bold=true" alt="Sarah Chen" style="border-radius: 50%; width: 50px; height: 50px;"></div>
                         <div class="review-info">
                             <div class="review-name">Sarah Chen</div>
                             <div class="review-role">Small Fleet Owner • 3 Trucks</div>
@@ -1000,7 +1000,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="review-avatar">🛣️</div>
+                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=James+Mitchell&background=f59e0b&color=fff&size=50&bold=true" alt="James Mitchell" style="border-radius: 50%; width: 50px; height: 50px;"></div>
                         <div class="review-info">
                             <div class="review-name">James Mitchell</div>
                             <div class="review-role">Long-Haul Driver • 12 Years</div>
@@ -1015,7 +1015,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="review-avatar">💰</div>
+                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Tom+Williams&background=8b5cf6&color=fff&size=50&bold=true" alt="Tom Williams" style="border-radius: 50%; width: 50px; height: 50px;"></div>
                         <div class="review-info">
                             <div class="review-name">Tom Williams</div>
                             <div class="review-role">Regional Hauler • 5 Years</div>
@@ -1030,7 +1030,7 @@
                 
                 <div class="review-card">
                     <div class="review-header">
-                        <div class="review-avatar">⚡</div>
+                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Lisa+Martinez&background=ec4899&color=fff&size=50&bold=true" alt="Lisa Martinez" style="border-radius: 50%; width: 50px; height: 50px;"></div>
                         <div class="review-info">
                             <div class="review-name">Lisa Martinez</div>
                             <div class="review-role">New Owner-Operator • 1 Year</div>
@@ -1125,7 +1125,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="187b77766c797b6c58686d6a7d7c716b68796c7b70367177">[email&#160;protected]</a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1302,7 +1302,7 @@
     }
     
     // ===== STRIPE PAYMENT INTEGRATION =====
-   const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+    const BACKEND_URL = 'https://YOUR-STRIPE-BACKEND-URL.vercel.app'; // UPDATE THIS!
     
     // Price IDs mapping - these map to the backend
     const PRICE_CONFIG = {
