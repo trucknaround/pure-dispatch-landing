@@ -1159,7 +1159,7 @@
         document.getElementById('voiceIndicator').classList.add('active');
         
         // Try ElevenLabs backend first
-        fetch('https://pure-dispatch-backend-v4.vercel.app/api/greeting', {
+        fetch(BACKEND_URL + '/api/greeting', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1302,7 +1302,7 @@
     }
     
     // ===== STRIPE PAYMENT INTEGRATION =====
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app'; // 
+    const BACKEND_URL = 'https://YOUR-STRIPE-BACKEND-URL.vercel.app'; // UPDATE THIS!
     
     // Price IDs mapping - these map to the backend
     const PRICE_CONFIG = {
