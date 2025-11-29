@@ -954,7 +954,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection#14777b7a607577605464616671707d67647560777c3a777b3a677d6071" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="d8bbb7b6acb9bbac98a8adaabdbcb1aba8b9acbbb0f6bbb7f6abb1acbd">[email&#160;protected]</span></a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -963,7 +963,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Backend URL
     const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
     
@@ -1248,18 +1248,28 @@
     
     // Handle payment button click
     function handlePayment(priceKey, planName, button) {
+        console.log('💳 handlePayment called');
+        console.log('💳 priceKey:', priceKey);
+        console.log('💳 planName:', planName);
+        console.log('💳 button:', button);
+        
         if (!button) {
             button = event ? event.target : null;
         }
         
         if (!button) {
+            console.error('❌ Error: Could not find payment button');
             alert('Error: Could not find payment button');
             return;
         }
         
         var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
         
+        console.log('💳 PRICE_CONFIG:', PRICE_CONFIG);
+        console.log('💳 actualPriceId:', actualPriceId);
+        
         if (!actualPriceId) {
+            console.error('❌ Invalid pricing option');
             alert('Invalid pricing option. Please try again.');
             return;
         }
@@ -1268,6 +1278,9 @@
         button.classList.add('loading');
         var originalText = button.textContent;
         button.textContent = 'Processing...';
+        
+        console.log('💳 Sending to:', BACKEND_URL + '/api/create-checkout-session');
+        console.log('💳 Payload:', { priceId: actualPriceId, planName: planName });
         
         fetch(BACKEND_URL + '/api/create-checkout-session', {
             method: 'POST',
@@ -1280,17 +1293,35 @@
             })
         })
         .then(function(response) {
+            console.log('💳 Response status:', response.status);
+            console.log('💳 Response ok:', response.ok);
+            
             if (!response.ok) {
-                throw new Error('Payment initialization failed');
+                return response.text().then(function(text) {
+                    console.error('❌ Server error:', text);
+                    throw new Error('Payment initialization failed: ' + text);
+                });
             }
             return response.json();
         })
         .then(function(data) {
-            window.location.href = data.url;
+            console.log('💳 Response data:', data);
+            if (data.url) {
+                console.log('✅ Redirecting to:', data.url);
+                window.location.href = data.url;
+            } else {
+                console.error('❌ No URL in response');
+                throw new Error('No checkout URL received');
+            }
         })
         .catch(function(error) {
-            console.error('Payment error:', error);
+            console.error('❌ Payment error:', error);
             button.disabled = false;
+            button.classList.remove('loading');
+            button.textContent = originalText;
+            alert('Unable to process payment. Please try again or contact support.\n\nError: ' + error.message);
+        });
+    }
             button.classList.remove('loading');
             button.textContent = originalText;
             alert('Unable to process payment. Please try again or contact support.');
@@ -1303,13 +1334,4 @@
         var standardBtn = document.getElementById('standard-btn');
         
         if (founderBtn) {
-            founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly', founderBtn); };
-        }
-        
-        if (standardBtn) {
-            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly', standardBtn); };
-        }
-    });
-    </script>
-</body>
-</html>
+            founderBtn.onclick = function() { handlePayment('founderM
