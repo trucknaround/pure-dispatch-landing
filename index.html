@@ -353,17 +353,82 @@
             position: relative;
         }
         .pricing-card.featured::before {
-            content: 'BEST VALUE';
+            content: '🌟 EARLY FOUNDER';
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: #22c55e;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: #000;
-            padding: 0.25rem 1rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
+        }
+        .pricing-period-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        .period-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #9ca3af;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .period-btn.active {
+            background: #22c55e;
+            color: #000;
+            border-color: #22c55e;
+        }
+        .period-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+        }
+        .founder-info {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+        .founder-info strong {
+            color: #22c55e;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .payment-btn {
+            position: relative;
+        }
+        .payment-btn.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         .pricing-card h3 {
             color: #ffffff;
@@ -707,7 +772,7 @@
                     <p>Compose professional emails, ask questions, and negotiate rates. Pure handles the communication.</p>
                 </div>
                 <div class="feature-card">
-                    <img class="feature-icon-img" src="data:image/png;base64,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" alt="Earnings Analytics">
+                    <img class="feature-icon-img" src="data:image/png;base64,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" alt="Earnings Analytics">
                     <h3>Earnings Analytics</h3>
                     <p>Track profitability by lane, broker, and season. Know exactly where you're making money.</p>
                 </div>
@@ -741,7 +806,7 @@
                     <span class="integration-badge">Coming Q1 2026</span>
                 </div>
                 <div class="integration-card">
-                    <img class="integration-logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAABsCAMAAADezpntAAAAnFBMVEX/////nR//lgD/8uf/kQD/06f/yJj3/Pj/mQH/lAAArgAAsAAAsRAAsx+H0o0Ashj/6tqn368AtSlTwlzH6Mr/nyew3rHn9Obx+vNtynX/mxP/79//17L/pkFCvlDc8d4etzLS7tW/58Q6u0OW2Z9fxmwzuDn/v37/3sD/xIv/+/V3zX6Az4WR05O24rr/qkz/tGP/ozT+uXL/5MzDWjzvAAAD9ElEQVR4nO2Ya5OqOBBAg3rlkTSRZJSHM4AKOD7Qcf3//207AWZ3761Vq9atmVvV54OJSYccOyRQMkYQBEEQBEEQBEEQBEEQBEEQBPFbsvUn/4o//Wo7w6vv3GBy/Wo/ZOrdUhz9+Go/RorPgRSfASk+A6vo+/4ICw9Pcd8qZ75v276LYnaZLcfvI8fbzfb72RYdvbcZsnwddYovx+OqDy9anR9Ofb1OQ1sewzBsFzFWY1PFemLbK52nQ2zaxSY2oDq5zK1MZPTyiGI2H2M5853+SfLqZeexrV39TjEKgkXXVwkhpRTaKhy55MbrJcAmIRQ6rAIpOBeixIBIdbFxHxvY39DFiiZ2N8LUZNd/W3G+NOVs8jE0nS+d4V+KoldcBEqWjQSRupgQUEpWRlEoBVIqHqKi2tRaKV6x9RCrzUiOsaFVVKos7RVyHA8CZHPPceq92XLmjz7Y8vIHVreZ5zt7xpbDdhkU41KJCFPVqGCNGeU4R2kVcXY3kiqIV4FA6RXnLWvA+McNmCELrkAZF8ziAZe9gU2cwyZhqxzE8a6iY7OGC+29zf0dNn1k2Rsasov3k+JaQGrKE8d5MAu6EvzUKzIWClEVAdSnhZZNgjWbvrWUNXM15JHgC6uIl0jyQZHFXDX3FbNJp+h4o1eTzww3junaf2T/VES1ymbTTL8WIkoU1J+Kay7bIlAiCARU5pvNTgyQY1pFyARs7EJvwqPuFtooMoDSvavo+J3iyO6Sq5M52Xm6w/py9FMWOdhpcX/ULAe+XmmQxaAYdVnUbZvKoF1xY4+LDvhzUikWqxrEi1EELgHtekWX25vlMcXMvL/ud6P5HJuy7J2x8eVT0Z4dMd7feEgkGvgJF0gJAQqXHBVbdFEqKLp7kWloCqUUDnJRLMJxSprY1GbxCApic6NsXJYcpEgfVZx0i7scXy/TMYJflt6gCPqQpvU65FAejrmEPGmlKpumQekEd/SmrnF31rijoY6ig8IEVbhDDqGW0LiVgC6WJ/ZebCVmGBXLut5gRouHFfsHyf68G/q2gyIHc4QFFdOmBkIUTOJh4bpuKHiEa4pnjgy0axQlnosQYFprrJuTccUkBInr4hHA2yQwSdtIXBb8pebc5HcPb6M4uo7H75Pd0jLfjm05u56HHX3KtSHH0yPSpcpDl63z3O6cQut6Zbrro5mq6CLTtR1Wm9jExNonS4wdGBDaUbpIbWR0Z6/0is4c6T7nTjbvcLzs8zXC7THVJHa7FjZ0saHvM7K/NsYmfdvfY38d9YDib/CmQ4r/EVJ8BqT4DH58//902PaW4rf4ZwzfZ27w1W4EQRAEQRAEQRAEQRAEQRAEQfwv/AnFKV2bAuSusQAAAABJRU5ErkJggg==" alt="123Loadboard">
+                    <img class="integration-logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAABsCAMAAADezpntAAAAnFBMVEX/////nR//lgD/8uf/kQD/06f/yJj3/Pj/mQH/lAAArgAAsAAAsRAAsx+H0o0Ashj/6tqn368AtSlTwlzH6Mr/nyew3rHn9Obx+vNtynX/mxP/79//17L/pkFCvlDc8d4etzLS7tW/58Q6u0OW2Z9fxmwzuDn/v37/3sD/xIv/+/V3zX6Az4WR05O24rr/qkz/tGP/ozT+uXL/5MzDWjzvAAAD9ElEQVR4nO2Ya5OqOBRAg3rlkTSRZJSHM4AKOD7Qcf3//207AWZ3761Vq9atmVvV54OJSYccOyRQMkYQBEEQBEEQBEEQBEEQBEEQBPFbsvUn/4o//Wo7w6vv3GBy/Wo/ZOrdUhz9+Go/RorPgRSfASk+A6vo+/4ICw9Pcd8qZ75v276LYnaZLcfvI8fbzfb72RYdvbcZsnwddYovx+OqDy9anR9Ofb1OQ1sewzBsFzFWY1PFemLbK52nQ2zaxSY2oDq5zK1MZPTyiGI2H2M5853+SfLqZeexrV39TjEKgkXXVwkhpRTaKhy55MbrJcAmIRQ6rAIpOBeixIBIdbFxHxvY39DFiiZ2N8LUZNd/W3G+NOVs8jE0nS+d4V+KoldcBEqWjQSRupgQUEpWRlEoBVIqHqKi2tRaKV6x9RCrzUiOsaFVVKos7RVyHA8CZHPPceq92XLmjz7Y8vIHVreZ5zt7xpbDdhkU41KJCFPVqGCNGeU4R2kVcXY3kiqIV4FA6RXnLWvA+McNmCELrkAZF8ziAZe9gU2cwyZhqxzE8a6iY7OGC+29zf0dNn1k2Rsasov3k+JaQGrKE8d5MAu6EvzUKzIWClEVAdSnhZZNgjWbvrWUNXM15JHgC6uIl0jyQZHFXDX3FbNJp+h4o1eTzww3junaf2T/VES1ymbTTL8WIkoU1J+Kay7bIlAiCARU5pvNTgyQY1pFyARs7EJvwqPuFtooMoDSvavo+J3iyO6Sq5M52Xm6w/py9FMWOdhpcX/ULAe+XmmQxaAYdVnUbZvKoF1xY4+LDvhzUikWqxrEi1EELgHtekWX25vlMcXMvL/ud6P5HJuy7J2x8eVT0Z4dMd7feEgkGvgJF0gJAQqXHBVbdFEqKLp7kWloCqUUDnJRLMJxSprY1GbxCApic6NsXJYcpEgfVZx0i7scXy/TMYJflt6gCPqQpvU65FAejrmEPGmlKpumQekEd/SmrnF31rijoY6ig8IEVbhDDqGW0LiVgC6WJ/ZebCVmGBXLut5gRouHFfsHyf68G/q2gyIHc4QFFdOmBkIUTOJh4bpuKHiEa4pnjgy0axQlnosQYFprrJuTccUkBInr4hHA2yQwSdtIXBb8pebc5HcPb6M4uo7H75Pd0jLfjm05u56HHX3KtSHH0yPSpcpDl63z3O6cQut6Zbrro5mq6CLTtR1Wm9jExNonS4wdGBDaUbpIbWR0Z6/0is4c6T7nTjbvcLzs8zXC7THVJHa7FjZ0saHvM7K/NsYmfdvfY38d9YDib/CmQ4r/EVJ8BqT4DH58//902PaW4rf4ZwzfZ27w1W4EQRAEQRAEQRAEQRAEQRAEQfwv/AnFKV2bAuSusQAAAABJRU5ErkJggg==" alt="123Loadboard">
                     <h3>123Loadboard</h3>
                     <p>Connect to millions of loads posted daily. Get instant alerts for loads matching your lanes and equipment type.</p>
                     <span class="integration-badge">Coming Q1 2026</span>
@@ -758,12 +823,24 @@
         <!-- Pricing Section -->
         <section id="pricing" class="section">
             <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
-            <p class="section-subtitle">No hidden fees. No per-load charges. Just one flat rate.</p>
+            <p class="section-subtitle">Lock in Early Founder rates or choose standard pricing.</p>
             <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Monthly</h3>
-                    <div class="pricing-amount">$50<span>/month</span></div>
-                    <div class="pricing-savings">&nbsp;</div>
+                <div class="pricing-card featured">
+                    <h3>Early Founder</h3>
+                    <div class="pricing-period-selector">
+                        <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
+                        <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
+                    </div>
+                    <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
+                    <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
+                    <div class="founder-info">
+                        <strong>🎯 Founder Tier Benefits:</strong>
+                        • Locked-in pricing for life<br>
+                        • Early beta access<br>
+                        • Exclusive founder badge<br>
+                        • Direct feature input<br>
+                        • 50% lifetime discount
+                    </div>
                     <ul class="pricing-features">
                         <li>Unlimited load searches</li>
                         <li>AI-powered broker communication</li>
@@ -772,21 +849,29 @@
                         <li>DOT/MC verification</li>
                         <li>Priority support</li>
                     </ul>
-                    <button class="btn btn-secondary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                    <button class="btn btn-primary payment-btn" id="founder-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly', this)">
+                        Get Started - $50/mo
+                    </button>
                 </div>
-                <div class="pricing-card featured">
-                    <h3>Annual</h3>
-                    <div class="pricing-amount">$300<span>/year</span></div>
-                    <div class="pricing-savings">Save $300/year (50% off!)</div>
+                <div class="pricing-card">
+                    <h3>Standard Plan</h3>
+                    <div class="pricing-period-selector">
+                        <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
+                        <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
+                    </div>
+                    <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
+                    <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
                     <ul class="pricing-features">
-                        <li>Everything in Monthly</li>
-                        <li>2 months FREE</li>
-                        <li>Early access to new features</li>
-                        <li>Dedicated account manager</li>
-                        <li>Custom lane alerts</li>
-                        <li>API access (coming soon)</li>
+                        <li>Everything in Early Founder</li>
+                        <li>Priority onboarding</li>
+                        <li>Advanced analytics</li>
+                        <li>Custom integrations</li>
+                        <li>Dedicated support</li>
+                        <li>API access</li>
                     </ul>
-                    <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+                    <button class="btn btn-secondary payment-btn" id="standard-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly', this)">
+                        Get Started - $99.99/mo
+                    </button>
                 </div>
             </div>
         </section>
@@ -870,7 +955,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="26454948524745526656535443424f55564752454e084f49">[email&#160;protected]</a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -878,8 +963,8 @@
             <p>&copy; 2025 Pure Dispatch. All rights reserved.</p>
         </div>
     </footer>
-
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    
+    <script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -924,6 +1009,7 @@
             
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
+            audio.playbackRate = 0.92;
             
             audio.onended = function() {
                 document.getElementById('voiceIndicator').classList.remove('active');
@@ -985,6 +1071,12 @@
     var submitBtn = document.getElementById('submitBtn');
     var formStatus = document.getElementById('formStatus');
     
+    function showStatus(message, type) {
+        formStatus.textContent = message;
+        formStatus.className = type;
+        formStatus.style.display = 'block';
+    }
+    
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -1036,4 +1128,132 @@
         })
         .catch(function(error) {
             console.error('AJAX failed, falling back to native submit:', error);
-            form.s
+            form.submit();
+        });
+    });
+    
+    // ===== PAYMENT HANDLING =====
+    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+    
+    const PRICE_CONFIG = {
+        founderMonthly: {
+            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
+            name: 'Early Founder Monthly',
+            amount: '$50/mo'
+        },
+        founderAnnual: {
+            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
+            name: 'Early Founder Annual',
+            amount: '$300/yr'
+        },
+        standardMonthly: {
+            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
+            name: 'Standard Monthly',
+            amount: '$99.99/mo'
+        },
+        standardAnnual: {
+            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
+            name: 'Standard Annual',
+            amount: '$799.99/yr'
+        }
+    };
+    
+    var currentPeriods = {
+        founder: 'monthly',
+        standard: 'monthly'
+    };
+    
+    window.selectPeriod = function(button, tier, period) {
+        var container = button.parentElement;
+        var buttons = container.querySelectorAll('.period-btn');
+        buttons.forEach(function(btn) {
+            btn.classList.remove('active');
+        });
+        button.classList.add('active');
+        
+        currentPeriods[tier] = period;
+        
+        if (tier === 'founder') {
+            var priceEl = document.getElementById('founder-price');
+            var savingsEl = document.getElementById('founder-savings');
+            var btnEl = document.getElementById('founder-btn');
+            
+            if (period === 'monthly') {
+                priceEl.innerHTML = '$50<span>/month</span>';
+                savingsEl.textContent = 'Pay monthly or save $300/year!';
+                btnEl.textContent = 'Get Started - $50/mo';
+                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly', this)");
+            } else {
+                priceEl.innerHTML = '$300<span>/year</span>';
+                savingsEl.textContent = 'Save $300/year vs monthly!';
+                btnEl.textContent = 'Get Started - $300/yr';
+                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual', this)");
+            }
+        } else {
+            var priceEl = document.getElementById('standard-price');
+            var savingsEl = document.getElementById('standard-savings');
+            var btnEl = document.getElementById('standard-btn');
+            
+            if (period === 'monthly') {
+                priceEl.innerHTML = '$99.99<span>/month</span>';
+                savingsEl.textContent = 'Pay monthly or save $400/year!';
+                btnEl.textContent = 'Get Started - $99.99/mo';
+                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly', this)");
+            } else {
+                priceEl.innerHTML = '$799.99<span>/year</span>';
+                savingsEl.textContent = 'Save $400/year vs monthly!';
+                btnEl.textContent = 'Get Started - $799.99/yr';
+                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual', this)");
+            }
+        }
+    };
+    
+    window.handlePayment = function(priceKey, planName, button) {
+        var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
+        
+        if (!actualPriceId) {
+            alert('Invalid pricing option. Please try again.');
+            return;
+        }
+        
+        button.disabled = true;
+        button.classList.add('loading');
+        var originalText = button.textContent;
+        button.textContent = 'Processing...';
+        
+        fetch(BACKEND_URL + '/api/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                priceId: actualPriceId,
+                planName: planName
+            })
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                return response.text().then(function(text) {
+                    throw new Error('Payment failed: ' + text);
+                });
+            }
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error('No checkout URL received');
+            }
+        })
+        .catch(function(error) {
+            console.error('Payment error:', error);
+            button.disabled = false;
+            button.classList.remove('loading');
+            button.textContent = originalText;
+            alert('Unable to process payment. Please try again or contact support.');
+        });
+    };
+    </script>
+</body>
+</html>
