@@ -337,7 +337,7 @@
         }
         .pricing-card {
             background: rgba(0, 0, 0, 0.6);
-            border: 3px solid #ffffff;
+            border: 2px solid #ffffff;
             padding: 2.5rem 2rem;
             border-radius: 10px;
             text-align: center;
@@ -409,10 +409,6 @@
             color: #22c55e;
             display: block;
             margin-bottom: 0.5rem;
-        }
-        .payment-btn {
-            position: relative;
-            overflow: hidden;
         }
         .payment-btn.loading::after {
             content: '';
@@ -820,7 +816,7 @@
         <!-- Pricing Section -->
         <section id="pricing" class="section">
             <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
-            <p class="section-subtitle">Lock in Early Founder rates or join the waitlist for standard pricing.</p>
+            <p class="section-subtitle">Lock in Early Founder rates or choose standard pricing.</p>
             <div class="pricing-grid">
                 <div class="pricing-card featured">
                     <h3>Early Founder</h3>
@@ -832,12 +828,11 @@
                     <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
                     <div class="founder-info">
                         <strong>🎯 Founder Tier Benefits:</strong>
-                        • Early access to beta testing<br>
-                        • Locked-in founder pricing for life<br>
+                        • Locked-in pricing for life<br>
+                        • Early beta access<br>
                         • Exclusive founder badge<br>
-                        • Direct input on features<br>
-                        • Help shape Pure's future<br>
-                        • 50% off lifetime discount
+                        • Direct feature input<br>
+                        • 50% lifetime discount
                     </div>
                     <ul class="pricing-features">
                         <li>Unlimited load searches</li>
@@ -846,9 +841,8 @@
                         <li>Voice-first interface</li>
                         <li>DOT/MC verification</li>
                         <li>Priority support</li>
-                        <li>Early feature access</li>
                     </ul>
-                    <button class="btn btn-primary payment-btn" id="founder-btn">
+                    <button class="btn btn-primary payment-btn" id="founder-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly', this)">
                         Get Started - $50/mo
                     </button>
                 </div>
@@ -868,7 +862,7 @@
                         <li>Dedicated support</li>
                         <li>API access</li>
                     </ul>
-                    <button class="btn btn-secondary payment-btn" id="standard-btn">
+                    <button class="btn btn-secondary payment-btn" id="standard-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly', this)">
                         Get Started - $99.99/mo
                     </button>
                 </div>
@@ -954,7 +948,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection#14777b7a607577605464616671707d67647560777c3a777b3a677d6071" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="d8bbb7b6acb9bbac98a8adaabdbcb1aba8b9acbbb0f6bbb7f6abb1acbd">[email&#160;protected]</span></a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -963,10 +957,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    // Backend URL
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
-    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -991,7 +982,7 @@
         document.getElementById('voiceIndicator').classList.add('active');
         
         // Try ElevenLabs backend first
-        fetch(BACKEND_URL + '/api/greeting', {
+        fetch('https://pure-dispatch-backend-v4.vercel.app/api/greeting', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -1011,7 +1002,7 @@
             
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
-            audio.playbackRate = 0.92; // Slightly slower for smoother delivery
+            audio.playbackRate = 0.92;
             
             audio.onended = function() {
                 document.getElementById('voiceIndicator').classList.remove('active');
@@ -1069,34 +1060,20 @@
     }, { once: true });
     
     // ===== FORM SUBMISSION =====
-    function showStatus(message, type) {
-        var formStatus = document.getElementById('formStatus');
-        if (!formStatus) return;
-        
-        formStatus.textContent = message;
-        formStatus.className = 'form-status ' + type;
-        formStatus.style.display = 'block';
-        
-        setTimeout(function() {
-            formStatus.style.display = 'none';
-        }, 5000);
-    }
-    
     var form = document.getElementById('waitlistForm');
     var submitBtn = document.getElementById('submitBtn');
     var formStatus = document.getElementById('formStatus');
     
-    if (form && submitBtn && formStatus) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            var name = document.getElementById('name').value.trim();
-            var email = document.getElementById('email').value.trim();
-            
-            if (!name) {
-                showStatus('❌ Please enter your name.', 'error');
-                document.getElementById('name').focus();
-                return;
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        
+        if (!name) {
+            showStatus('❌ Please enter your name.', 'error');
+            document.getElementById('name').focus();
+            return;
         }
         
         if (!email || !email.includes('@') || !email.includes('.')) {
@@ -1141,11 +1118,10 @@
             form.submit();
         });
     })();
-    }
     
     // ===== PAYMENT HANDLING =====
+    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
     
-    // Price IDs mapping - CORRECT mapping from Stripe
     const PRICE_CONFIG = {
         founderMonthly: {
             priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
@@ -1169,22 +1145,12 @@
         }
     };
     
-    // Current selected periods
     var currentPeriods = {
         founder: 'monthly',
         standard: 'monthly'
     };
     
-    // Handle period selection
     window.selectPeriod = function(button, tier, period) {
-        console.log('🔘 selectPeriod called:', { tier: tier, period: period });
-        
-        if (!button || !tier || !period) {
-            console.error('Missing parameters:', { button: button, tier: tier, period: period });
-            return;
-        }
-        
-        // Update button states
         var container = button.parentElement;
         var buttons = container.querySelectorAll('.period-btn');
         buttons.forEach(function(btn) {
@@ -1192,9 +1158,6 @@
         });
         button.classList.add('active');
         
-        console.log('✅ Button states updated');
-        
-        // Update current period
         currentPeriods[tier] = period;
         
         if (tier === 'founder') {
@@ -1202,74 +1165,40 @@
             var savingsEl = document.getElementById('founder-savings');
             var btnEl = document.getElementById('founder-btn');
             
-            if (!priceEl || !savingsEl || !btnEl) {
-                console.error('Founder elements not found');
-                return;
-            }
-            
             if (period === 'monthly') {
                 priceEl.innerHTML = '$50<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $300/year!';
                 btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly', btnEl); };
-                console.log('✅ Set to Founder Monthly - $50');
+                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly', this)");
             } else {
                 priceEl.innerHTML = '$300<span>/year</span>';
                 savingsEl.textContent = 'Save $300/year vs monthly!';
                 btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.onclick = function() { handlePayment('founderAnnual', 'Early Founder Annual', btnEl); };
-                console.log('✅ Set to Founder Annual - $300');
+                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual', this)");
             }
         } else {
             var priceEl = document.getElementById('standard-price');
             var savingsEl = document.getElementById('standard-savings');
             var btnEl = document.getElementById('standard-btn');
             
-            if (!priceEl || !savingsEl || !btnEl) {
-                console.error('Standard elements not found');
-                return;
-            }
-            
             if (period === 'monthly') {
                 priceEl.innerHTML = '$99.99<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $400/year!';
                 btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly', btnEl); };
-                console.log('✅ Set to Standard Monthly - $99.99');
+                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly', this)");
             } else {
                 priceEl.innerHTML = '$799.99<span>/year</span>';
                 savingsEl.textContent = 'Save $400/year vs monthly!';
                 btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.onclick = function() { handlePayment('standardAnnual', 'Standard Annual', btnEl); };
-                console.log('✅ Set to Standard Annual - $799.99');
+                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual', this)");
             }
         }
     };
     
-    // Handle payment button click
-    function handlePayment(priceKey, planName, button) {
-        console.log('💳 handlePayment called');
-        console.log('💳 priceKey:', priceKey);
-        console.log('💳 planName:', planName);
-        console.log('💳 button:', button);
-        
-        if (!button) {
-            button = event ? event.target : null;
-        }
-        
-        if (!button) {
-            console.error('❌ Error: Could not find payment button');
-            alert('Error: Could not find payment button');
-            return;
-        }
-        
+    window.handlePayment = function(priceKey, planName, button) {
         var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
         
-        console.log('💳 PRICE_CONFIG:', PRICE_CONFIG);
-        console.log('💳 actualPriceId:', actualPriceId);
-        
         if (!actualPriceId) {
-            console.error('❌ Invalid pricing option');
             alert('Invalid pricing option. Please try again.');
             return;
         }
@@ -1278,9 +1207,6 @@
         button.classList.add('loading');
         var originalText = button.textContent;
         button.textContent = 'Processing...';
-        
-        console.log('💳 Sending to:', BACKEND_URL + '/api/create-checkout-session');
-        console.log('💳 Payload:', { priceId: actualPriceId, planName: planName });
         
         fetch(BACKEND_URL + '/api/create-checkout-session', {
             method: 'POST',
@@ -1293,45 +1219,28 @@
             })
         })
         .then(function(response) {
-            console.log('💳 Response status:', response.status);
-            console.log('💳 Response ok:', response.ok);
-            
             if (!response.ok) {
                 return response.text().then(function(text) {
-                    console.error('❌ Server error:', text);
-                    throw new Error('Payment initialization failed: ' + text);
+                    throw new Error('Payment failed: ' + text);
                 });
             }
             return response.json();
         })
         .then(function(data) {
-            console.log('💳 Response data:', data);
             if (data.url) {
-                console.log('✅ Redirecting to:', data.url);
                 window.location.href = data.url;
             } else {
-                console.error('❌ No URL in response');
                 throw new Error('No checkout URL received');
             }
         })
         .catch(function(error) {
-            console.error('❌ Payment error:', error);
+            console.error('Payment error:', error);
             button.disabled = false;
-            button.classList.remove('loading');
-            button.textContent = originalText;
-            alert('Unable to process payment. Please try again or contact support.\n\nError: ' + error.message);
-        });
-    }
             button.classList.remove('loading');
             button.textContent = originalText;
             alert('Unable to process payment. Please try again or contact support.');
         });
-    }
-    
-    // Initialize payment buttons on page load
-    window.addEventListener('DOMContentLoaded', function() {
-        var founderBtn = document.getElementById('founder-btn');
-        var standardBtn = document.getElementById('standard-btn');
-        
-        if (founderBtn) {
-            founderBtn.onclick = function() { handlePayment('founderM
+    };
+    </script>
+</body>
+</html>
