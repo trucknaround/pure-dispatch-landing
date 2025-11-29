@@ -331,13 +331,13 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
-            max-width: 800px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
         }
         .pricing-card {
             background: rgba(0, 0, 0, 0.6);
-            border: 3px solid #ffffff;
+            border: 2px solid #ffffff;
             padding: 2.5rem 2rem;
             border-radius: 10px;
             text-align: center;
@@ -353,14 +353,14 @@
             position: relative;
         }
         .pricing-card.featured::before {
-            content: '🌟 EARLY FOUNDER';
+            content: 'BEST VALUE';
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: #22c55e;
             color: #000;
-            padding: 0.4rem 1.2rem;
+            padding: 0.25rem 1rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
@@ -385,23 +385,6 @@
             color: #22c55e;
             font-size: 0.9rem;
             margin-bottom: 1.5rem;
-            min-height: 1.5rem;
-        }
-        .founder-info {
-            background: rgba(251, 191, 36, 0.15);
-            border: 1px solid rgba(251, 191, 36, 0.4);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0 1.5rem 0;
-            font-size: 0.85rem;
-            color: #fbbf24;
-            text-align: left;
-            line-height: 1.6;
-        }
-        .founder-info strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
         }
         .pricing-features {
             list-style: none;
@@ -418,67 +401,6 @@
             content: '✓';
             color: #22c55e;
             margin-right: 0.5rem;
-        }
-        .payment-btn {
-            width: 100%;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: block;
-            text-align: center;
-        }
-        .payment-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .payment-btn.loading {
-            position: relative;
-        }
-        .payment-btn.loading::after {
-            content: '';
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(0,0,0,0.3);
-            border-top-color: #000;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: translateY(-50%) rotate(360deg); }
-        }
-        .pricing-period-selector {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-        .period-btn {
-            padding: 0.5rem 1.25rem;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: #d1d5db;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .period-btn.active {
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            color: #000000;
-            border-color: #ffffff;
-        }
-        .period-btn:hover:not(.active) {
-            border-color: #ffffff;
         }
         /* Integrations Section */
         .integrations-grid {
@@ -544,76 +466,6 @@
             font-size: 0.75rem;
             font-weight: 600;
             margin-top: 1rem;
-        }
-        /* Reviews Section */
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .review-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
-            padding: 2rem;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-        .review-card:hover {
-            border-color: #fbbf24;
-            background: rgba(0, 0, 0, 0.8);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
-        }
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        .review-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 1rem;
-        }
-        .review-info {
-            flex: 1;
-        }
-        .review-name {
-            font-weight: 600;
-            color: #ffffff;
-            font-size: 1rem;
-        }
-        .review-role {
-            color: #9ca3af;
-            font-size: 0.85rem;
-        }
-        .review-stars {
-            color: #fbbf24;
-            font-size: 1.1rem;
-            margin-bottom: 0.75rem;
-        }
-        .review-text {
-            color: #d1d5db;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            font-style: italic;
-        }
-        .review-badge {
-            display: inline-block;
-            background: rgba(251, 191, 36, 0.2);
-            border: 1px solid #fbbf24;
-            color: #fbbf24;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 0.75rem;
         }
         /* About Section */
         .about-content {
@@ -823,7 +675,6 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#integrations">Integrations</a></li>
             <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#reviews">Reviews</a></li>
             <li><a href="#about">About</a></li>
         </ul>
         <button class="nav-cta" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
@@ -907,25 +758,12 @@
         <!-- Pricing Section -->
         <section id="pricing" class="section">
             <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
-            <p class="section-subtitle">Lock in Early Founder rates or join the waitlist for standard pricing.</p>
+            <p class="section-subtitle">No hidden fees. No per-load charges. Just one flat rate.</p>
             <div class="pricing-grid">
-                <div class="pricing-card featured">
-                    <h3>Early Founder</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
-                    </div>
-                    <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
-                    <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
-                    <div class="founder-info">
-                        <strong>🎯 Founder Tier Benefits:</strong>
-                        • Early access to beta testing<br>
-                        • Locked-in founder pricing for life<br>
-                        • Exclusive founder badge<br>
-                        • Direct input on features<br>
-                        • Help shape Pure's future<br>
-                        • 50% off lifetime discount
-                    </div>
+                <div class="pricing-card">
+                    <h3>Monthly</h3>
+                    <div class="pricing-amount">$50<span>/month</span></div>
+                    <div class="pricing-savings">&nbsp;</div>
                     <ul class="pricing-features">
                         <li>Unlimited load searches</li>
                         <li>AI-powered broker communication</li>
@@ -933,114 +771,22 @@
                         <li>Voice-first interface</li>
                         <li>DOT/MC verification</li>
                         <li>Priority support</li>
-                        <li>Early feature access</li>
                     </ul>
-                    <button class="btn btn-primary payment-btn" id="founder-btn">
-                        Get Started - $50/mo
-                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
                 </div>
-                <div class="pricing-card">
-                    <h3>Standard Plan</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
-                    </div>
-                    <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
-                    <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
+                <div class="pricing-card featured">
+                    <h3>Annual</h3>
+                    <div class="pricing-amount">$300<span>/year</span></div>
+                    <div class="pricing-savings">Save $300/year (50% off!)</div>
                     <ul class="pricing-features">
-                        <li>Unlimited load searches</li>
-                        <li>AI-powered broker communication</li>
-                        <li>Earnings analytics dashboard</li>
-                        <li>Voice-first interface</li>
-                        <li>DOT/MC verification</li>
-                        <li>Standard support</li>
-                        <li>All core features</li>
+                        <li>Everything in Monthly</li>
+                        <li>2 months FREE</li>
+                        <li>Early access to new features</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom lane alerts</li>
+                        <li>API access (coming soon)</li>
                     </ul>
-                    <button class="btn btn-secondary payment-btn" id="standard-btn">
-                        Get Started - $99.99/mo
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Reviews Section -->
-        <section id="reviews" class="section">
-            <h2 class="section-title">WHAT BETA TESTERS ARE SAYING</h2>
-            <p class="section-subtitle">Real feedback from drivers testing Pure Dispatch.</p>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Marcus+Rodriguez&background=3b82f6&color=fff&size=50&bold=true" alt="Marcus Rodriguez" style="border-radius: 50%; width: 50px; height: 50px;"></div>
-                        <div class="review-info">
-                            <div class="review-name">Marcus Rodriguez</div>
-                            <div class="review-role">Owner-Operator • 8 Years</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    <div class="review-text">
-                        "Pure is a game-changer. I used to spend 2-3 hours daily searching load boards. Now Pure finds the best loads for me in minutes. The voice interface means I can work while driving safely. Already increased my revenue by 15%."
-                    </div>
-                    <span class="review-badge">BETA TESTER</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Sarah+Chen&background=22c55e&color=fff&size=50&bold=true" alt="Sarah Chen" style="border-radius: 50%; width: 50px; height: 50px;"></div>
-                        <div class="review-info">
-                            <div class="review-name">Sarah Chen</div>
-                            <div class="review-role">Small Fleet Owner • 3 Trucks</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    <div class="review-text">
-                        "Managing three trucks was overwhelming. Pure handles dispatch for all my trucks simultaneously. The AI learns my preferred routes and customers. It's like having a full-time dispatcher for a fraction of the cost."
-                    </div>
-                    <span class="review-badge">BETA TESTER</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=James+Mitchell&background=f59e0b&color=fff&size=50&bold=true" alt="James Mitchell" style="border-radius: 50%; width: 50px; height: 50px;"></div>
-                        <div class="review-info">
-                            <div class="review-name">James Mitchell</div>
-                            <div class="review-role">Long-Haul Driver • 12 Years</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    <div class="review-text">
-                        "The route optimization alone pays for itself. Pure factors in fuel costs, tolls, and real-time traffic. Last month I saved $800 in fuel and avoided three major delays. The analytics help me see which lanes are most profitable."
-                    </div>
-                    <span class="review-badge">BETA TESTER</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Tom+Williams&background=8b5cf6&color=fff&size=50&bold=true" alt="Tom Williams" style="border-radius: 50%; width: 50px; height: 50px;"></div>
-                        <div class="review-info">
-                            <div class="review-name">Tom Williams</div>
-                            <div class="review-role">Regional Hauler • 5 Years</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    <div class="review-text">
-                        "Pure's notifications are incredibly smart. It alerts me to high-paying loads before they're picked up by other drivers. The DAT integration is seamless. I've booked loads worth $2K+ while competitors were still searching manually."
-                    </div>
-                    <span class="review-badge">BETA TESTER</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar"><img src="https://ui-avatars.com/api/?name=Lisa+Martinez&background=ec4899&color=fff&size=50&bold=true" alt="Lisa Martinez" style="border-radius: 50%; width: 50px; height: 50px;"></div>
-                        <div class="review-info">
-                            <div class="review-name">Lisa Martinez</div>
-                            <div class="review-role">New Owner-Operator • 1 Year</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    <div class="review-text">
-                        "As a new owner-operator, Pure has been my mentor. It suggests profitable routes I wouldn't have considered. The interface is so intuitive even my dad could use it. Customer support responds fast. Best investment I've made in my business."
-                    </div>
-                    <span class="review-badge">BETA TESTER</span>
+                    <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
                 </div>
             </div>
         </section>
@@ -1120,12 +866,11 @@
                 <p><a href="#features">Features</a></p>
                 <p><a href="#integrations">Integrations</a></p>
                 <p><a href="#pricing">Pricing</a></p>
-                <p><a href="#reviews">Reviews</a></p>
                 <p><a href="#about">About</a></p>
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection#e784888993868493a797929582838e94978693848fc98488c9948e9382" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="84e7ebeaf0e5e7f0c4f4f1f6e1e0edf7f4e5f0e7ecaae7ebaaf7edf0e1">[email&#160;protected]</span></a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1134,7 +879,10 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Backend URL
+    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+    
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -1155,14 +903,10 @@
         if (hasPlayedGreeting) return;
         hasPlayedGreeting = true;
         
-        console.log('🎤 playGreeting() called');
-        console.log('🔗 BACKEND_URL:', BACKEND_URL);
-        
         document.getElementById('greetingBtn').classList.add('hidden');
         document.getElementById('voiceIndicator').classList.add('active');
         
         // Try ElevenLabs backend first
-        console.log('📡 Fetching:', BACKEND_URL + '/api/greeting');
         fetch(BACKEND_URL + '/api/greeting', {
             method: 'POST',
             headers: {
@@ -1171,65 +915,41 @@
             body: JSON.stringify({})
         })
         .then(function(response) {
-            console.log('📦 Response status:', response.status);
-            console.log('📦 Response ok:', response.ok);
             if (!response.ok) {
                 throw new Error('Backend returned ' + response.status);
             }
             return response.json();
         })
         .then(function(data) {
-            console.log('📊 Response data:', data);
-            console.log('✅ Success:', data.success);
-            console.log('🎵 Has audio:', !!data.audio);
-            if (data.audio) {
-                console.log('🎵 Audio length:', data.audio.length);
-                console.log('🎵 Audio prefix:', data.audio.substring(0, 50));
-            }
-            
             if (!data.success || !data.audio) {
-                throw new Error('Invalid response from backend: ' + JSON.stringify(data));
+                throw new Error('Invalid response from backend');
             }
             
-            console.log('🔊 Creating Audio element...');
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
             audio.playbackRate = 0.92; // Slightly slower for smoother delivery
             
             audio.onended = function() {
-                console.log('✅ Audio playback completed');
                 document.getElementById('voiceIndicator').classList.remove('active');
             };
             
-            audio.onerror = function(e) {
-                console.error('❌ Audio element error:', e);
-                console.error('❌ Audio error code:', audio.error ? audio.error.code : 'unknown');
-                console.error('❌ Audio error message:', audio.error ? audio.error.message : 'unknown');
+            audio.onerror = function() {
+                console.error('ElevenLabs audio playback failed, falling back to Web Speech');
                 playWebSpeechFallback();
             };
             
-            console.log('▶️ Attempting to play audio...');
-            audio.play()
-                .then(function() {
-                    console.log('✅ Audio.play() started successfully!');
-                })
-                .catch(function(err) {
-                    console.error('❌ Audio.play() failed:', err);
-                    console.error('❌ Error name:', err.name);
-                    console.error('❌ Error message:', err.message);
-                    playWebSpeechFallback();
-                });
+            audio.play().catch(function(err) {
+                console.error('ElevenLabs play failed:', err);
+                playWebSpeechFallback();
+            });
         })
         .catch(function(error) {
-            console.error('❌ Fetch/Response error:', error);
-            console.error('❌ Error name:', error.name);
-            console.error('❌ Error message:', error.message);
+            console.error('ElevenLabs backend error:', error);
             playWebSpeechFallback();
         });
     }
     
     function playWebSpeechFallback() {
-        console.log('🔄 Falling back to Web Speech API');
         window.speechSynthesis.cancel();
         
         var utterance = new SpeechSynthesisUtterance("Hello Driver. I'm Pure. Ready to find you some loads?");
@@ -1322,18 +1042,11 @@
             console.error('AJAX failed, falling back to native submit:', error);
             form.submit();
         });
-    });
+    })();
     
-    function showStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = type;
-        formStatus.style.display = 'block';
-    }
+    // ===== PAYMENT HANDLING =====
     
-    // ===== STRIPE PAYMENT INTEGRATION =====
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
-    
-    // Price IDs mapping - these map to the backend
+    // Price IDs mapping - CORRECT mapping from Stripe
     const PRICE_CONFIG = {
         founderMonthly: {
             priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
@@ -1365,7 +1078,6 @@
     
     // Handle period selection
     function selectPeriod(button, tier, period) {
-        // Update button states
         var container = button.parentElement;
         var buttons = container.querySelectorAll('.period-btn');
         buttons.forEach(function(btn) {
@@ -1373,10 +1085,8 @@
         });
         button.classList.add('active');
         
-        // Update current period
         currentPeriods[tier] = period;
         
-        // Update pricing display
         if (tier === 'founder') {
             var priceEl = document.getElementById('founder-price');
             var savingsEl = document.getElementById('founder-savings');
@@ -1415,31 +1125,18 @@
     // Handle payment button click
     function handlePayment(priceKey, planName) {
         var button = event.target;
-        
-        console.log('💳 handlePayment called');
-        console.log('💳 priceKey:', priceKey);
-        console.log('💳 planName:', planName);
-        
-        // Get the actual Stripe Price ID from config
         var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
-        
-        console.log('💳 actualPriceId:', actualPriceId);
-        console.log('💳 PRICE_CONFIG:', PRICE_CONFIG);
         
         if (!actualPriceId) {
             alert('Invalid pricing option. Please try again.');
             return;
         }
         
-        // Disable button and show loading state
         button.disabled = true;
         button.classList.add('loading');
         var originalText = button.textContent;
         button.textContent = 'Processing...';
         
-        console.log('💳 Sending to Stripe:', { priceId: actualPriceId, planName: planName });
-        
-        // Call backend to create checkout session
         fetch(BACKEND_URL + '/api/create-checkout-session', {
             method: 'POST',
             headers: {
@@ -1457,7 +1154,6 @@
             return response.json();
         })
         .then(function(data) {
-            // Redirect to Stripe Checkout
             window.location.href = data.url;
         })
         .catch(function(error) {
@@ -1471,9 +1167,17 @@
     
     // Initialize payment buttons on page load
     window.addEventListener('DOMContentLoaded', function() {
-        // Set default onclick handlers for monthly plans
         var founderBtn = document.getElementById('founder-btn');
         var standardBtn = document.getElementById('standard-btn');
         
         if (founderBtn) {
             founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
+        }
+        
+        if (standardBtn) {
+            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
+        }
+    });
+    </script>
+</body>
+</html>
