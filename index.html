@@ -1125,7 +1125,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection#e784888993868493a797929582838e94978693848fc98488c9948e9382" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="84e7ebeaf0e5e7f0c4f4f1f6e1e0edf7f4e5f0e7ecaae7ebaaf7edf0e1">[email&#160;protected]</span></a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1134,7 +1134,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -1194,6 +1194,7 @@
             console.log('🔊 Creating Audio element...');
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
+            audio.playbackRate = 0.92; // Slightly slower for smoother delivery
             
             audio.onended = function() {
                 console.log('✅ Audio playback completed');
@@ -1335,22 +1336,22 @@
     // Price IDs mapping - these map to the backend
     const PRICE_CONFIG = {
         founderMonthly: {
-            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
+            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
             name: 'Early Founder Monthly',
             amount: '$50/mo'
         },
         founderAnnual: {
-            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
+            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
             name: 'Early Founder Annual',
             amount: '$300/yr'
         },
         standardMonthly: {
-            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
+            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
             name: 'Standard Monthly',
             amount: '$99.99/mo'
         },
         standardAnnual: {
-            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
+            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
             name: 'Standard Annual',
             amount: '$799.99/yr'
         }
@@ -1476,14 +1477,3 @@
         
         if (founderBtn) {
             founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
-        }
-        
-        if (standardBtn) {
-            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
-        }
-        
-        console.log('✅ Payment buttons initialized');
-    });
-    </script>
-</body>
-</html>
