@@ -935,7 +935,7 @@
                         <li>Priority support</li>
                         <li>Early feature access</li>
                     </ul>
-                    <button class="btn btn-primary payment-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly')" id="founder-btn">
+                    <button class="btn btn-primary payment-btn" id="founder-btn">
                         Get Started - $50/mo
                     </button>
                 </div>
@@ -956,7 +956,7 @@
                         <li>Standard support</li>
                         <li>All core features</li>
                     </ul>
-                    <button class="btn btn-secondary payment-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly')" id="standard-btn">
+                    <button class="btn btn-secondary payment-btn" id="standard-btn">
                         Get Started - $99.99/mo
                     </button>
                 </div>
@@ -1125,7 +1125,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection#81e2eeeff5e0e2f5c1f1f4f3e4e5e8f2f1e0f5e2e9afe2eeaff2e8f5e4" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="fd9e9293899c9e89bd8d888f9899948e8d9c899e95d39e92d38e948998">[email&#160;protected]</span></a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1155,10 +1155,14 @@
         if (hasPlayedGreeting) return;
         hasPlayedGreeting = true;
         
+        console.log('🎤 playGreeting() called');
+        console.log('🔗 BACKEND_URL:', BACKEND_URL);
+        
         document.getElementById('greetingBtn').classList.add('hidden');
         document.getElementById('voiceIndicator').classList.add('active');
         
         // Try ElevenLabs backend first
+        console.log('📡 Fetching:', BACKEND_URL + '/api/greeting');
         fetch(BACKEND_URL + '/api/greeting', {
             method: 'POST',
             headers: {
@@ -1167,40 +1171,64 @@
             body: JSON.stringify({})
         })
         .then(function(response) {
+            console.log('📦 Response status:', response.status);
+            console.log('📦 Response ok:', response.ok);
             if (!response.ok) {
                 throw new Error('Backend returned ' + response.status);
             }
             return response.json();
         })
         .then(function(data) {
-            if (!data.success || !data.audio) {
-                throw new Error('Invalid response from backend');
+            console.log('📊 Response data:', data);
+            console.log('✅ Success:', data.success);
+            console.log('🎵 Has audio:', !!data.audio);
+            if (data.audio) {
+                console.log('🎵 Audio length:', data.audio.length);
+                console.log('🎵 Audio prefix:', data.audio.substring(0, 50));
             }
             
+            if (!data.success || !data.audio) {
+                throw new Error('Invalid response from backend: ' + JSON.stringify(data));
+            }
+            
+            console.log('🔊 Creating Audio element...');
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
             
             audio.onended = function() {
+                console.log('✅ Audio playback completed');
                 document.getElementById('voiceIndicator').classList.remove('active');
             };
             
-            audio.onerror = function() {
-                console.error('ElevenLabs audio playback failed, falling back to Web Speech');
+            audio.onerror = function(e) {
+                console.error('❌ Audio element error:', e);
+                console.error('❌ Audio error code:', audio.error ? audio.error.code : 'unknown');
+                console.error('❌ Audio error message:', audio.error ? audio.error.message : 'unknown');
                 playWebSpeechFallback();
             };
             
-            audio.play().catch(function(err) {
-                console.error('ElevenLabs play failed:', err);
-                playWebSpeechFallback();
-            });
+            console.log('▶️ Attempting to play audio...');
+            audio.play()
+                .then(function() {
+                    console.log('✅ Audio.play() started successfully!');
+                })
+                .catch(function(err) {
+                    console.error('❌ Audio.play() failed:', err);
+                    console.error('❌ Error name:', err.name);
+                    console.error('❌ Error message:', err.message);
+                    playWebSpeechFallback();
+                });
         })
         .catch(function(error) {
-            console.error('ElevenLabs backend error:', error);
+            console.error('❌ Fetch/Response error:', error);
+            console.error('❌ Error name:', error.name);
+            console.error('❌ Error message:', error.message);
             playWebSpeechFallback();
         });
     }
     
     function playWebSpeechFallback() {
+        console.log('🔄 Falling back to Web Speech API');
         window.speechSynthesis.cancel();
         
         var utterance = new SpeechSynthesisUtterance("Hello Driver. I'm Pure. Ready to find you some loads?");
@@ -1357,12 +1385,12 @@
                 priceEl.innerHTML = '$50<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $300/year!';
                 btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly')");
+                btnEl.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
             } else {
                 priceEl.innerHTML = '$300<span>/year</span>';
                 savingsEl.textContent = 'Save $300/year vs monthly!';
                 btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual')");
+                btnEl.onclick = function() { handlePayment('founderAnnual', 'Early Founder Annual'); };
             }
         } else {
             var priceEl = document.getElementById('standard-price');
@@ -1373,12 +1401,12 @@
                 priceEl.innerHTML = '$99.99<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $400/year!';
                 btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly')");
+                btnEl.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
             } else {
                 priceEl.innerHTML = '$799.99<span>/year</span>';
                 savingsEl.textContent = 'Save $400/year vs monthly!';
                 btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual')");
+                btnEl.onclick = function() { handlePayment('standardAnnual', 'Standard Annual'); };
             }
         }
     }
@@ -1387,8 +1415,15 @@
     function handlePayment(priceKey, planName) {
         var button = event.target;
         
+        console.log('💳 handlePayment called');
+        console.log('💳 priceKey:', priceKey);
+        console.log('💳 planName:', planName);
+        
         // Get the actual Stripe Price ID from config
         var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
+        
+        console.log('💳 actualPriceId:', actualPriceId);
+        console.log('💳 PRICE_CONFIG:', PRICE_CONFIG);
         
         if (!actualPriceId) {
             alert('Invalid pricing option. Please try again.');
@@ -1400,6 +1435,8 @@
         button.classList.add('loading');
         var originalText = button.textContent;
         button.textContent = 'Processing...';
+        
+        console.log('💳 Sending to Stripe:', { priceId: actualPriceId, planName: planName });
         
         // Call backend to create checkout session
         fetch(BACKEND_URL + '/api/create-checkout-session', {
@@ -1430,6 +1467,23 @@
             alert('Unable to process payment. Please try again or contact support.');
         });
     }
+    
+    // Initialize payment buttons on page load
+    window.addEventListener('DOMContentLoaded', function() {
+        // Set default onclick handlers for monthly plans
+        var founderBtn = document.getElementById('founder-btn');
+        var standardBtn = document.getElementById('standard-btn');
+        
+        if (founderBtn) {
+            founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
+        }
+        
+        if (standardBtn) {
+            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
+        }
+        
+        console.log('✅ Payment buttons initialized');
+    });
     </script>
 </body>
 </html>
