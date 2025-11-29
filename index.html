@@ -1069,20 +1069,34 @@
     }, { once: true });
     
     // ===== FORM SUBMISSION =====
+    function showStatus(message, type) {
+        var formStatus = document.getElementById('formStatus');
+        if (!formStatus) return;
+        
+        formStatus.textContent = message;
+        formStatus.className = 'form-status ' + type;
+        formStatus.style.display = 'block';
+        
+        setTimeout(function() {
+            formStatus.style.display = 'none';
+        }, 5000);
+    }
+    
     var form = document.getElementById('waitlistForm');
     var submitBtn = document.getElementById('submitBtn');
     var formStatus = document.getElementById('formStatus');
     
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        var name = document.getElementById('name').value.trim();
-        var email = document.getElementById('email').value.trim();
-        
-        if (!name) {
-            showStatus('❌ Please enter your name.', 'error');
-            document.getElementById('name').focus();
-            return;
+    if (form && submitBtn && formStatus) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var name = document.getElementById('name').value.trim();
+            var email = document.getElementById('email').value.trim();
+            
+            if (!name) {
+                showStatus('❌ Please enter your name.', 'error');
+                document.getElementById('name').focus();
+                return;
         }
         
         if (!email || !email.includes('@') || !email.includes('.')) {
@@ -1127,6 +1141,7 @@
             form.submit();
         });
     })();
+    }
     
     // ===== PAYMENT HANDLING =====
     
