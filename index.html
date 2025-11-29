@@ -954,7 +954,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection#f99a96978d989a8db9898c8b9c9d908a89988d9a91d79a96d78a908d9c" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="6f0c00011b0e0c1b2f1f1a1d0a0b061c1f0e1b0c07410c00411c061b0a">[email&#160;protected]</span></a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -1176,7 +1176,15 @@
     };
     
     // Handle period selection
-    function selectPeriod(button, tier, period) {
+    window.selectPeriod = function(button, tier, period) {
+        console.log('🔘 selectPeriod called:', { tier: tier, period: period });
+        
+        if (!button || !tier || !period) {
+            console.error('Missing parameters:', { button: button, tier: tier, period: period });
+            return;
+        }
+        
+        // Update button states
         var container = button.parentElement;
         var buttons = container.querySelectorAll('.period-btn');
         buttons.forEach(function(btn) {
@@ -1184,6 +1192,9 @@
         });
         button.classList.add('active');
         
+        console.log('✅ Button states updated');
+        
+        // Update current period
         currentPeriods[tier] = period;
         
         if (tier === 'founder') {
@@ -1191,39 +1202,61 @@
             var savingsEl = document.getElementById('founder-savings');
             var btnEl = document.getElementById('founder-btn');
             
+            if (!priceEl || !savingsEl || !btnEl) {
+                console.error('Founder elements not found');
+                return;
+            }
+            
             if (period === 'monthly') {
                 priceEl.innerHTML = '$50<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $300/year!';
                 btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
+                btnEl.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly', btnEl); };
+                console.log('✅ Set to Founder Monthly - $50');
             } else {
                 priceEl.innerHTML = '$300<span>/year</span>';
                 savingsEl.textContent = 'Save $300/year vs monthly!';
                 btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.onclick = function() { handlePayment('founderAnnual', 'Early Founder Annual'); };
+                btnEl.onclick = function() { handlePayment('founderAnnual', 'Early Founder Annual', btnEl); };
+                console.log('✅ Set to Founder Annual - $300');
             }
         } else {
             var priceEl = document.getElementById('standard-price');
             var savingsEl = document.getElementById('standard-savings');
             var btnEl = document.getElementById('standard-btn');
             
+            if (!priceEl || !savingsEl || !btnEl) {
+                console.error('Standard elements not found');
+                return;
+            }
+            
             if (period === 'monthly') {
                 priceEl.innerHTML = '$99.99<span>/month</span>';
                 savingsEl.textContent = 'Pay monthly or save $400/year!';
                 btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
+                btnEl.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly', btnEl); };
+                console.log('✅ Set to Standard Monthly - $99.99');
             } else {
                 priceEl.innerHTML = '$799.99<span>/year</span>';
                 savingsEl.textContent = 'Save $400/year vs monthly!';
                 btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.onclick = function() { handlePayment('standardAnnual', 'Standard Annual'); };
+                btnEl.onclick = function() { handlePayment('standardAnnual', 'Standard Annual', btnEl); };
+                console.log('✅ Set to Standard Annual - $799.99');
             }
         }
-    }
+    };
     
     // Handle payment button click
-    function handlePayment(priceKey, planName) {
-        var button = event.target;
+    function handlePayment(priceKey, planName, button) {
+        if (!button) {
+            button = event ? event.target : null;
+        }
+        
+        if (!button) {
+            alert('Error: Could not find payment button');
+            return;
+        }
+        
         var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
         
         if (!actualPriceId) {
@@ -1270,11 +1303,11 @@
         var standardBtn = document.getElementById('standard-btn');
         
         if (founderBtn) {
-            founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly'); };
+            founderBtn.onclick = function() { handlePayment('founderMonthly', 'Early Founder Monthly', founderBtn); };
         }
         
         if (standardBtn) {
-            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly'); };
+            standardBtn.onclick = function() { handlePayment('standardMonthly', 'Standard Monthly', standardBtn); };
         }
     });
     </script>
