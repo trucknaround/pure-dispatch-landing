@@ -353,75 +353,17 @@
             position: relative;
         }
         .pricing-card.featured::before {
-            content: '🌟 EARLY FOUNDER';
+            content: 'BEST VALUE';
             position: absolute;
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: #22c55e;
             color: #000;
-            padding: 0.4rem 1.2rem;
+            padding: 0.25rem 1rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 700;
-        }
-        .pricing-period-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            background: rgba(255,255,255,0.05);
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-        .period-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #9ca3af;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .period-btn.active {
-            background: #22c55e;
-            color: #000;
-            border-color: #22c55e;
-        }
-        .period-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
-        }
-        .founder-info {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: left;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #d1d5db;
-        }
-        .founder-info strong {
-            color: #22c55e;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        .payment-btn.loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
         }
         .pricing-card h3 {
             color: #ffffff;
@@ -816,24 +758,12 @@
         <!-- Pricing Section -->
         <section id="pricing" class="section">
             <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
-            <p class="section-subtitle">Lock in Early Founder rates or choose standard pricing.</p>
+            <p class="section-subtitle">No hidden fees. No per-load charges. Just one flat rate.</p>
             <div class="pricing-grid">
-                <div class="pricing-card featured">
-                    <h3>Early Founder</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
-                    </div>
-                    <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
-                    <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
-                    <div class="founder-info">
-                        <strong>🎯 Founder Tier Benefits:</strong>
-                        • Locked-in pricing for life<br>
-                        • Early beta access<br>
-                        • Exclusive founder badge<br>
-                        • Direct feature input<br>
-                        • 50% lifetime discount
-                    </div>
+                <div class="pricing-card">
+                    <h3>Monthly</h3>
+                    <div class="pricing-amount">$50<span>/month</span></div>
+                    <div class="pricing-savings">&nbsp;</div>
                     <ul class="pricing-features">
                         <li>Unlimited load searches</li>
                         <li>AI-powered broker communication</li>
@@ -842,29 +772,21 @@
                         <li>DOT/MC verification</li>
                         <li>Priority support</li>
                     </ul>
-                    <button class="btn btn-primary payment-btn" id="founder-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly', this)">
-                        Get Started - $50/mo
-                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
                 </div>
-                <div class="pricing-card">
-                    <h3>Standard Plan</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
-                    </div>
-                    <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
-                    <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
+                <div class="pricing-card featured">
+                    <h3>Annual</h3>
+                    <div class="pricing-amount">$300<span>/year</span></div>
+                    <div class="pricing-savings">Save $300/year (50% off!)</div>
                     <ul class="pricing-features">
-                        <li>Everything in Early Founder</li>
-                        <li>Priority onboarding</li>
-                        <li>Advanced analytics</li>
-                        <li>Custom integrations</li>
-                        <li>Dedicated support</li>
-                        <li>API access</li>
+                        <li>Everything in Monthly</li>
+                        <li>2 months FREE</li>
+                        <li>Early access to new features</li>
+                        <li>Dedicated account manager</li>
+                        <li>Custom lane alerts</li>
+                        <li>API access (coming soon)</li>
                     </ul>
-                    <button class="btn btn-secondary payment-btn" id="standard-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly', this)">
-                        Get Started - $99.99/mo
-                    </button>
+                    <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
                 </div>
             </div>
         </section>
@@ -948,7 +870,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
+                <p>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="26454948524745526656535443424f55564752454e084f49">[email&#160;protected]</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -957,7 +879,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -1002,7 +924,6 @@
             
             var audio = new Audio(data.audio);
             audio.volume = 0.85;
-            audio.playbackRate = 0.92;
             
             audio.onended = function() {
                 document.getElementById('voiceIndicator').classList.remove('active');
@@ -1115,137 +1036,4 @@
         })
         .catch(function(error) {
             console.error('AJAX failed, falling back to native submit:', error);
-            form.submit();
-        });
-    
-    function showStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = type;
-        formStatus.style.display = 'block';
-    }
-    
-    // ===== PAYMENT HANDLING =====
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
-    
-    const PRICE_CONFIG = {
-        founderMonthly: {
-            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
-            name: 'Early Founder Monthly',
-            amount: '$50/mo'
-        },
-        founderAnnual: {
-            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
-            name: 'Early Founder Annual',
-            amount: '$300/yr'
-        },
-        standardMonthly: {
-            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
-            name: 'Standard Monthly',
-            amount: '$99.99/mo'
-        },
-        standardAnnual: {
-            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
-            name: 'Standard Annual',
-            amount: '$799.99/yr'
-        }
-    };
-    
-    var currentPeriods = {
-        founder: 'monthly',
-        standard: 'monthly'
-    };
-    
-    window.selectPeriod = function(button, tier, period) {
-        var container = button.parentElement;
-        var buttons = container.querySelectorAll('.period-btn');
-        buttons.forEach(function(btn) {
-            btn.classList.remove('active');
-        });
-        button.classList.add('active');
-        
-        currentPeriods[tier] = period;
-        
-        if (tier === 'founder') {
-            var priceEl = document.getElementById('founder-price');
-            var savingsEl = document.getElementById('founder-savings');
-            var btnEl = document.getElementById('founder-btn');
-            
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$50<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $300/year!';
-                btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$300<span>/year</span>';
-                savingsEl.textContent = 'Save $300/year vs monthly!';
-                btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual', this)");
-            }
-        } else {
-            var priceEl = document.getElementById('standard-price');
-            var savingsEl = document.getElementById('standard-savings');
-            var btnEl = document.getElementById('standard-btn');
-            
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$99.99<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $400/year!';
-                btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$799.99<span>/year</span>';
-                savingsEl.textContent = 'Save $400/year vs monthly!';
-                btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual', this)");
-            }
-        }
-    };
-    
-    window.handlePayment = function(priceKey, planName, button) {
-        var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
-        
-        if (!actualPriceId) {
-            alert('Invalid pricing option. Please try again.');
-            return;
-        }
-        
-        button.disabled = true;
-        button.classList.add('loading');
-        var originalText = button.textContent;
-        button.textContent = 'Processing...';
-        
-        fetch(BACKEND_URL + '/api/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                priceId: actualPriceId,
-                planName: planName
-            })
-        })
-        .then(function(response) {
-            if (!response.ok) {
-                return response.text().then(function(text) {
-                    throw new Error('Payment failed: ' + text);
-                });
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error('No checkout URL received');
-            }
-        })
-        .catch(function(error) {
-            console.error('Payment error:', error);
-            button.disabled = false;
-            button.classList.remove('loading');
-            button.textContent = originalText;
-            alert('Unable to process payment. Please try again or contact support.');
-        });
-    };
-    </script>
-</body>
-</html>
+            form.s
