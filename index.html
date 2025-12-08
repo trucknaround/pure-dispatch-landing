@@ -365,6 +365,17 @@
             font-size: 0.75rem;
             font-weight: 700;
         }
+        .trial-badge {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            margin: 1rem auto 1.5rem;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
         .pricing-period-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -831,6 +842,7 @@
                         <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
                         <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
                     </div>
+                    <div class="trial-badge">3-Day Free Trial</div>
                     <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
                     <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
                     <div class="founder-info">
@@ -859,6 +871,7 @@
                         <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
                         <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
                     </div>
+                    <div class="trial-badge">3-Day Free Trial</div>
                     <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
                     <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
                     <ul class="pricing-features">
