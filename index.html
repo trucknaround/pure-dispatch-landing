@@ -1,1272 +1,267 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pure Dispatch - Your AI-Powered Virtual Dispatcher</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            color: #e5e7eb;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        #starfield {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        .voice-indicator {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #ffffff;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            display: none;
-            align-items: center;
-            gap: 1rem;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        .voice-indicator.active {
-            display: flex;
-        }
-        .sound-waves {
-            display: flex;
-            gap: 0.25rem;
-            align-items: flex-end;
-        }
-        .sound-wave {
-            width: 3px;
-            background: #ffffff;
-            border-radius: 2px;
-            animation: wave 0.6s ease-in-out infinite;
-        }
-        .sound-wave:nth-child(1) { height: 4px; animation-delay: 0s; }
-        .sound-wave:nth-child(2) { height: 8px; animation-delay: 0.1s; }
-        .sound-wave:nth-child(3) { height: 12px; animation-delay: 0.2s; }
-        .sound-wave:nth-child(4) { height: 8px; animation-delay: 0.3s; }
-        @keyframes wave {
-            0%, 100% { transform: scaleY(0.5); }
-            50% { transform: scaleY(1); }
-        }
-        .voice-text {
-            font-size: 0.85rem;
-            color: #ffffff;
-            font-weight: 500;
-        }
-        #greetingBtn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            color: #000000;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            z-index: 999;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            display: block;
-        }
-        #greetingBtn:hover {
-            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-        }
-        #greetingBtn.hidden {
-            display: none;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #ffffff;
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .nav-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        .nav-links a {
-            color: #d1d5db;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-        .nav-links a:hover {
-            color: #ffffff;
-        }
-        .nav-cta {
-            padding: 0.5rem 1.25rem;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            color: #000000;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: box-shadow 0.3s;
-        }
-        .nav-cta:hover {
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
-        }
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            box-sizing: border-box;
-            width: 100%;
-            overflow: hidden;
-        }
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .logo {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6, #e5e7eb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-            letter-spacing: 1px;
-        }
-        .tagline {
-            font-size: 1.75rem;
-            color: #f3f4f6;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        .glossy-text {
-            background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #16a34a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-            position: relative;
-            display: inline-block;
-            filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.5));
-        }
-        .glossy-text::after {
-            content: 'Virtual Dispatcher';
-            position: absolute;
-            left: 0;
-            top: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            pointer-events: none;
-        }
-        .subtitle {
-            font-size: 1.1rem;
-            color: #9ca3af;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .cta-container {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 0.75rem 1.75rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            color: #000000;
-        }
-        .btn-primary:hover {
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.4);
-        }
-        .btn-secondary {
-            background: transparent;
-            color: #ffffff;
-            border: 2px solid #ffffff;
-        }
-        .btn-secondary:hover {
-            background: #ffffff;
-            color: #000000;
-        }
-        .section {
-            margin: 4rem 0;
-            padding: 3rem 2rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 0.5px;
-        }
-        .section-subtitle {
-            text-align: center;
-            color: #9ca3af;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-            width: 100%;
-            overflow: hidden;
-        }
-        .feature-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
-            padding: 2rem;
-            border-radius: 10px;
-            transition: all 0.3s;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-        .feature-card:hover {
-            border-color: #f3f4f6;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .feature-icon-img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 10px;
-            margin-bottom: 1rem;
-            box-shadow: 
-                0 4px 6px rgba(0, 0, 0, 0.3),
-                0 8px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.3s;
-        }
-        .feature-card:hover .feature-icon-img {
-            transform: scale(1.05);
-        }
-        .feature-card h3 {
-            color: #ffffff;
-            margin-bottom: 0.75rem;
-            font-size: 1.2rem;
-        }
-        .feature-card p {
-            color: #d1d5db;
-            font-size: 0.95rem;
-        }
-        /* Pricing Section */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .pricing-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
-            padding: 2.5rem 2rem;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .pricing-card:hover {
-            border-color: #f3f4f6;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .pricing-card.featured {
-            border-color: #22c55e;
-            position: relative;
-        }
-        .pricing-card.featured::before {
-            content: '🌟 EARLY FOUNDER';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #000;
-            padding: 0.4rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-        .trial-badge {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            margin: 1rem auto 1.5rem;
-            display: inline-block;
-            letter-spacing: 0.5px;
-        }
-        .pricing-period-selector {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            background: rgba(255,255,255,0.05);
-            padding: 0.5rem;
-            border-radius: 8px;
-        }
-        .period-btn {
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #9ca3af;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        .period-btn.active {
-            background: #22c55e;
-            color: #000;
-            border-color: #22c55e;
-        }
-        .period-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.4);
-        }
-        .founder-info {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1));
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            text-align: left;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #d1d5db;
-        }
-        .founder-info strong {
-            color: #22c55e;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        .payment-btn {
-            position: relative;
-        }
-        .payment-btn.loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .pricing-card h3 {
-            color: #ffffff;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-        .pricing-amount {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 0.25rem;
-        }
-        .pricing-amount span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #9ca3af;
-        }
-        .pricing-savings {
-            color: #22c55e;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-        .pricing-features li {
-            color: #d1d5db;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.9rem;
-        }
-        .pricing-features li::before {
-            content: '✓';
-            color: #22c55e;
-            margin-right: 0.5rem;
-        }
-        /* Integrations Section */
-        .integrations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .integration-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .integration-card:hover {
-            border-color: #f3f4f6;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-        .integration-logo {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        .integration-logo-img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 12px;
-            margin-bottom: 1rem;
-            box-shadow: 
-                0 4px 6px rgba(0, 0, 0, 0.3),
-                0 8px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.3s;
-        }
-        .integration-card:hover .integration-logo-img {
-            transform: scale(1.05);
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.4),
-                0 12px 24px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-        .integration-card h3 {
-            color: #ffffff;
-            margin-bottom: 0.75rem;
-            font-size: 1.3rem;
-        }
-        .integration-card p {
-            color: #d1d5db;
-            font-size: 0.95rem;
-        }
-        .integration-badge {
-            display: inline-block;
-            background: rgba(34, 197, 94, 0.2);
-            border: 1px solid #22c55e;
-            color: #22c55e;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-        /* About Section */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .about-content p {
-            color: #d1d5db;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .stat-item {
-            text-align: center;
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-        }
-        .stat-label {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
-        /* Form Section */
-        #waitlist-form-section {
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #ffffff;
-            padding: 3rem;
-            border-radius: 12px;
-            max-width: 600px;
-            margin: 4rem auto;
-            box-sizing: border-box;
-            overflow: hidden;
-        }
-        .waitlist-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-        .waitlist-subtitle {
-            text-align: center;
-            color: #9ca3af;
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #d1d5db;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffffff;
-            color: #f3f4f6;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #f3f4f6;
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-        #submitBtn {
-            width: 100%;
-            padding: 0.75rem;
-            background: linear-gradient(135deg, #ffffff, #f3f4f6);
-            color: #000000;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: box-shadow 0.3s, opacity 0.3s;
-            min-height: 48px;
-        }
-        #submitBtn:hover:not(:disabled) {
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
-        }
-        #submitBtn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        #formStatus {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 6px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-        }
-        #formStatus.success {
-            display: block;
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid #22c55e;
-            color: #22c55e;
-        }
-        #formStatus.error {
-            display: block;
-            background: rgba(239, 68, 68, 0.2);
-            border: 2px solid #ef4444;
-            color: #ef4444;
-        }
-        footer {
-            background: rgba(0, 0, 0, 0.8);
-            border-top: 2px solid #ffffff;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        .footer-section h4 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .footer-section a,
-        .footer-section p {
-            color: #d1d5db;
-            text-decoration: none;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-        .footer-section a:hover {
-            color: #ffffff;
-        }
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-        @media (max-width: 768px) {
-            .nav { padding: 1rem; }
-            .nav-links { display: none; }
-            .logo { font-size: 2rem; }
-            .tagline { font-size: 1.25rem; }
-            .section-title { font-size: 1.5rem; }
-            .cta-container { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
-            .btn { width: 100%; text-align: center; }
-            .form-row { grid-template-columns: 1fr; }
-            #waitlist-form-section { padding: 2rem; margin: 2rem auto; }
-            .about-stats { grid-template-columns: 1fr; gap: 1rem; }
-            .pricing-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <div id="starfield"></div>
+<script>
+// ===== STARFIELD =====
+(function() {
+    var starfield = document.getElementById('starfield');
+    for (var i = 0; i < 100; i++) {
+        var star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starfield.appendChild(star);
+    }
+})();
+
+// ===== VOICE GREETING =====
+var hasPlayedGreeting = false;
+
+function playGreeting() {
+    if (hasPlayedGreeting) return;
+    hasPlayedGreeting = true;
     
-    <button id="greetingBtn">🎤 Listen to Pure</button>
+    document.getElementById('greetingBtn').classList.add('hidden');
+    document.getElementById('voiceIndicator').classList.add('active');
     
-    <div class="voice-indicator" id="voiceIndicator">
-        <div class="sound-waves">
-            <div class="sound-wave"></div>
-            <div class="sound-wave"></div>
-            <div class="sound-wave"></div>
-            <div class="sound-wave"></div>
-        </div>
-        <span class="voice-text">Pure is speaking...</span>
-    </div>
-    
-    <nav class="nav">
-        <div class="nav-logo">PURE DISPATCH</div>
-        <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#integrations">Integrations</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#about">About</a></li>
-        </ul>
-        <button class="nav-cta" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
-    </nav>
-    
-    <div class="content">
-        <section class="hero">
-            <h1 class="logo">PURE DISPATCH</h1>
-            <p class="tagline">Your AI-Powered <span class="glossy-text">Virtual Dispatcher</span></p>
-            <p class="subtitle">Stop waiting on hold. Stop missing loads. Get an AI dispatcher in your pocket.</p>
-            <div class="cta-container">
-                <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
-                <button class="btn btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More</button>
-            </div>
-        </section>
+    fetch('https://pure-dispatch-backend-v4.vercel.app/api/greeting', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Backend returned ' + response.status);
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        if (!data.success || !data.audio) {
+            throw new Error('Invalid response from backend');
+        }
         
-        <!-- Features Section -->
-        <section id="features" class="section">
-            <h2 class="section-title">FEATURES BUILT FOR DRIVERS</h2>
-            <p class="section-subtitle">Everything you need to manage your business in one AI-powered app.</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Smart Load Search</h3>
-                    <p>Find the best loads instantly. Our AI filters for profit margins, fuel costs, and your preferred routes.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
-                    <h3>Broker Communication</h3>
-                    <p>Compose professional emails, ask questions, and negotiate rates. Pure handles the communication.</p>
-                </div>
-                <div class="feature-card">
-                    <img class="feature-icon-img" src="data:image/png;base64,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" alt="Earnings Analytics">
-                    <h3>Earnings Analytics</h3>
-                    <p>Track profitability by lane, broker, and season. Know exactly where you're making money.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎤</div>
-                    <h3>Voice-First Interface</h3>
-                    <p>Talk to Pure like a real dispatcher. Hands-free operation while you're on the road.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>DOT/MC Verification</h3>
-                    <p>Automatic compliance checks and document management to keep you legal and running.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Mobile Ready</h3>
-                    <p>Full functionality on any device. Your dispatcher goes wherever you go.</p>
-                </div>
-            </div>
-        </section>
+        var audio = new Audio(data.audio);
+        audio.volume = 0.85;
+        audio.playbackRate = 0.92;
         
-        <!-- Integrations Section -->
-        <section id="integrations" class="section">
-            <h2 class="section-title">LOAD BOARD INTEGRATIONS</h2>
-            <p class="section-subtitle">Connect to the industry's top load boards for seamless load matching.</p>
-            <div class="integrations-grid">
-                <div class="integration-card">
-                    <img class="integration-logo-img" src="data:image/webp;base64,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" alt="DAT Load Board">
-                    <h3>DAT Load Board</h3>
-                    <p>Access North America's largest load board network. Search thousands of loads with real-time rate data and market insights.</p>
-                    <span class="integration-badge">Coming Q1 2026</span>
-                </div>
-                <div class="integration-card">
-                    <img class="integration-logo-img" src="data:image/png;base64,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" alt="123Loadboard">
-                    <h3>123Loadboard</h3>
-                    <p>Connect to millions of loads posted daily. Get instant alerts for loads matching your lanes and equipment type.</p>
-                    <span class="integration-badge">Coming Q1 2026</span>
-                </div>
-                <div class="integration-card">
-                    <div class="integration-logo-img" style="display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: #22c55e; margin: 0 auto 1rem auto;">🔗</div>
-                    <h3>More Coming Soon</h3>
-                    <p>We're actively working on partnerships with additional load boards and TMS platforms to give you maximum coverage.</p>
-                    <span class="integration-badge">In Development</span>
-                </div>
-            </div>
-        </section>
+        audio.onended = function() {
+            document.getElementById('voiceIndicator').classList.remove('active');
+        };
         
-        <!-- Pricing Section -->
-        <section id="pricing" class="section">
-            <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
-            <p class="section-subtitle">Lock in Early Founder rates or choose standard pricing.</p>
-            <div class="pricing-grid">
-                <div class="pricing-card featured">
-                    <h3>Early Founder</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
-                    </div>
-                    <div class="trial-badge">3-Day Free Trial</div>
-                    <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
-                    <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
-                    <div class="founder-info">
-                        <strong>🎯 Founder Tier Benefits:</strong>
-                        • Locked-in pricing for life<br>
-                        • Early beta access<br>
-                        • Exclusive founder badge<br>
-                        • Direct feature input<br>
-                        • 50% lifetime discount
-                    </div>
-                    <ul class="pricing-features">
-                        <li>Unlimited load searches</li>
-                        <li>AI-powered broker communication</li>
-                        <li>Earnings analytics dashboard</li>
-                        <li>Voice-first interface</li>
-                        <li>DOT/MC verification</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <button class="btn btn-primary payment-btn" id="founder-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly', this)">
-                        Get Started - $50/mo
-                    </button>
-                </div>
-                <div class="pricing-card">
-                    <h3>Standard Plan</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
-                    </div>
-                    <div class="trial-badge">3-Day Free Trial</div>
-                    <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
-                    <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
-                    <ul class="pricing-features">
-                        <li>Everything in Early Founder</li>
-                        <li>Priority onboarding</li>
-                        <li>Advanced analytics</li>
-                        <li>Custom integrations</li>
-                        <li>Dedicated support</li>
-                        <li>API access</li>
-                    </ul>
-                    <button class="btn btn-secondary payment-btn" id="standard-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly', this)">
-                        Get Started - $99.99/mo
-                    </button>
-                </div>
-            </div>
-        </section>
+        audio.onerror = function() {
+            console.error('ElevenLabs audio playback failed, falling back to Web Speech');
+            playWebSpeechFallback();
+        };
         
-        <!-- About Section -->
-        <section id="about" class="section">
-            <h2 class="section-title">ABOUT PURE DISPATCH</h2>
-            <p class="section-subtitle">Built by people who understand trucking.</p>
-            <div class="about-content">
-                <p>Pure Dispatch was born from a simple frustration: owner-operators and small carriers deserve the same dispatch technology as the big fleets, without the big price tag.</p>
-                <p>We're building an AI dispatcher that actually understands the trucking business—one that can find profitable loads, handle broker negotiations, and keep you compliant, all while you focus on driving.</p>
-                <p>Based in Gloucester City, NJ, we're a small team with a big mission: to level the playing field for independent truckers.</p>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">Q1-Q2</div>
-                        <div class="stat-label">2026 Launch</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24/7</div>
-                        <div class="stat-label">AI Availability</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Driver Focused</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Waitlist Form Section -->
-        <section id="waitlist-form-section">
-            <h2 class="waitlist-title">Join the Waitlist</h2>
-            <p class="waitlist-subtitle">Be first in line when Pure Dispatch launches. Early members get priority access.</p>
-            
-            <form id="waitlistForm" action="https://formspree.io/f/xyzvejzk" method="POST">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Your Name *</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="company">Company / Operating Name</label>
-                        <input type="text" id="company" name="company">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                </div>
-                
-                <div class="form-group full">
-                    <label for="message">What are you most excited about?</label>
-                    <textarea id="message" name="message" rows="4"></textarea>
-                </div>
-                
-                <button type="submit" id="submitBtn">Submit</button>
-                <div id="formStatus"></div>
-            </form>
-        </section>
-    </div>
-    
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Pure Dispatch</h4>
-                <p>Your AI-powered virtual dispatcher for owner-operators and small carriers.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <p><a href="#features">Features</a></p>
-                <p><a href="#integrations">Integrations</a></p>
-                <p><a href="#pricing">Pricing</a></p>
-                <p><a href="#about">About</a></p>
-            </div>
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
-                <p>Location: Gloucester City, NJ</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Pure Dispatch. All rights reserved.</p>
-        </div>
-    </footer>
-    
-    <script>
-    // ===== STARFIELD =====
-    (function() {
-        var starfield = document.getElementById('starfield');
-        for (var i = 0; i < 100; i++) {
-            var star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starfield.appendChild(star);
-        }
-    })();
-    
-    // ===== VOICE GREETING =====
-    var hasPlayedGreeting = false;
-    
-    function playGreeting() {
-        if (hasPlayedGreeting) return;
-        hasPlayedGreeting = true;
-        
-        document.getElementById('greetingBtn').classList.add('hidden');
-        document.getElementById('voiceIndicator').classList.add('active');
-        
-        // Try ElevenLabs backend first
-        fetch('https://pure-dispatch-backend-v4.vercel.app/api/greeting', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({})
-        })
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Backend returned ' + response.status);
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            if (!data.success || !data.audio) {
-                throw new Error('Invalid response from backend');
-            }
-            
-            var audio = new Audio(data.audio);
-            audio.volume = 0.85;
-            audio.playbackRate = 0.92;
-            
-            audio.onended = function() {
-                document.getElementById('voiceIndicator').classList.remove('active');
-            };
-            
-            audio.onerror = function() {
-                console.error('ElevenLabs audio playback failed, falling back to Web Speech');
-                playWebSpeechFallback();
-            };
-            
-            audio.play().catch(function(err) {
-                console.error('ElevenLabs play failed:', err);
-                playWebSpeechFallback();
-            });
-        })
-        .catch(function(error) {
-            console.error('ElevenLabs backend error:', error);
+        audio.play().catch(function(err) {
+            console.error('ElevenLabs play failed:', err);
             playWebSpeechFallback();
         });
-    }
-    
-    function playWebSpeechFallback() {
-        window.speechSynthesis.cancel();
-        
-        var utterance = new SpeechSynthesisUtterance("Hello Driver. I'm Pure. Ready to find you some loads?");
-        utterance.volume = 0.85;
-        utterance.rate = 0.95;
-        utterance.pitch = 1.0;
-        utterance.lang = 'en-US';
-        
-        var voices = window.speechSynthesis.getVoices();
-        for (var i = 0; i < voices.length; i++) {
-            if (voices[i].name.indexOf('Female') > -1 || voices[i].name.indexOf('Samantha') > -1) {
-                utterance.voice = voices[i];
-                break;
-            }
-        }
-        
-        utterance.onend = function() {
-            document.getElementById('voiceIndicator').classList.remove('active');
-        };
-        
-        utterance.onerror = function() {
-            document.getElementById('voiceIndicator').classList.remove('active');
-        };
-        
-        window.speechSynthesis.speak(utterance);
-    }
-    
-    document.getElementById('greetingBtn').onclick = playGreeting;
-    
-    document.addEventListener('click', function firstClick() {
-        setTimeout(playGreeting, 300);
-        document.removeEventListener('click', firstClick);
-    }, { once: true });
-    
-    // ===== FORM SUBMISSION =====
-    var form = document.getElementById('waitlistForm');
-    var submitBtn = document.getElementById('submitBtn');
-    var formStatus = document.getElementById('formStatus');
-    
-    function showStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = type;
-        formStatus.style.display = 'block';
-    }
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        var name = document.getElementById('name').value.trim();
-        var email = document.getElementById('email').value.trim();
-        
-        if (!name) {
-            showStatus('❌ Please enter your name.', 'error');
-            document.getElementById('name').focus();
-            return;
-        }
-        
-        if (!email || !email.includes('@') || !email.includes('.')) {
-            showStatus('❌ Please enter a valid email address.', 'error');
-            document.getElementById('email').focus();
-            return;
-        }
-        
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
-        formStatus.className = '';
-        formStatus.style.display = 'none';
-        
-        var data = new FormData(form);
-        
-        fetch(form.action, {
-            method: 'POST',
-            body: data,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then(function(response) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit';
-            
-            if (response.ok) {
-                showStatus('✅ Success! You\'re on the waitlist. Check your email for confirmation.', 'success');
-                form.reset();
-            } else {
-                return response.json().then(function(data) {
-                    if (data.errors) {
-                        showStatus('❌ ' + data.errors.map(function(e) { return e.message; }).join(', '), 'error');
-                    } else {
-                        showStatus('❌ Something went wrong. Please try again.', 'error');
-                    }
-                });
-            }
-        })
-        .catch(function(error) {
-            console.error('AJAX failed, falling back to native submit:', error);
-            form.submit();
-        });
+    })
+    .catch(function(error) {
+        console.error('ElevenLabs backend error:', error);
+        playWebSpeechFallback();
     });
+}
+
+function playWebSpeechFallback() {
+    window.speechSynthesis.cancel();
     
-    // ===== PAYMENT HANDLING =====
-    const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+    var utterance = new SpeechSynthesisUtterance("Hello Driver. I'm Pure. Ready to find you some loads?");
+    utterance.volume = 0.85;
+    utterance.rate = 0.95;
+    utterance.pitch = 1.0;
+    utterance.lang = 'en-US';
     
-    const PRICE_CONFIG = {
-        founderMonthly: {
-            priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
-            name: 'Early Founder Monthly',
-            amount: '$50/mo'
-        },
-        founderAnnual: {
-            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
-            name: 'Early Founder Annual',
-            amount: '$300/yr'
-        },
-        standardMonthly: {
-            priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
-            name: 'Standard Monthly',
-            amount: '$99.99/mo'
-        },
-        standardAnnual: {
-            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
-            name: 'Standard Annual',
-            amount: '$799.99/yr'
+    var voices = window.speechSynthesis.getVoices();
+    for (var i = 0; i < voices.length; i++) {
+        if (voices[i].name.indexOf('Female') > -1 || voices[i].name.indexOf('Samantha') > -1) {
+            utterance.voice = voices[i];
+            break;
         }
+    }
+    
+    utterance.onend = function() {
+        document.getElementById('voiceIndicator').classList.remove('active');
     };
     
-    var currentPeriods = {
-        founder: 'monthly',
-        standard: 'monthly'
+    utterance.onerror = function() {
+        document.getElementById('voiceIndicator').classList.remove('active');
     };
     
-    window.selectPeriod = function(button, tier, period) {
-        var container = button.parentElement;
-        var buttons = container.querySelectorAll('.period-btn');
-        buttons.forEach(function(btn) {
-            btn.classList.remove('active');
-        });
-        button.classList.add('active');
+    window.speechSynthesis.speak(utterance);
+}
+
+document.getElementById('greetingBtn').onclick = playGreeting;
+
+document.addEventListener('click', function firstClick() {
+    setTimeout(playGreeting, 300);
+    document.removeEventListener('click', firstClick);
+}, { once: true });
+
+// ===== FORM SUBMISSION =====
+var form = document.getElementById('waitlistForm');
+var submitBtn = document.getElementById('submitBtn');
+var formStatus = document.getElementById('formStatus');
+
+function showStatus(message, type) {
+    formStatus.textContent = message;
+    formStatus.className = type;
+    formStatus.style.display = 'block';
+}
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+    
+    if (!name) {
+        showStatus('❌ Please enter your name.', 'error');
+        document.getElementById('name').focus();
+        return;
+    }
+    
+    if (!email || !email.includes('@') || !email.includes('.')) {
+        showStatus('❌ Please enter a valid email address.', 'error');
+        document.getElementById('email').focus();
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    formStatus.className = '';
+    formStatus.style.display = 'none';
+    
+    var data = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then(function(response) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit';
         
-        currentPeriods[tier] = period;
-        
-        if (tier === 'founder') {
-            var priceEl = document.getElementById('founder-price');
-            var savingsEl = document.getElementById('founder-savings');
-            var btnEl = document.getElementById('founder-btn');
-            
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$50<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $300/year!';
-                btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$300<span>/year</span>';
-                savingsEl.textContent = 'Save $300/year vs monthly!';
-                btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual', this)");
-            }
+        if (response.ok) {
+            showStatus('✅ Success! You\'re on the waitlist. Check your email for confirmation.', 'success');
+            form.reset();
         } else {
-            var priceEl = document.getElementById('standard-price');
-            var savingsEl = document.getElementById('standard-savings');
-            var btnEl = document.getElementById('standard-btn');
-            
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$99.99<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $400/year!';
-                btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$799.99<span>/year</span>';
-                savingsEl.textContent = 'Save $400/year vs monthly!';
-                btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual', this)");
-            }
+            return response.json().then(function(data) {
+                if (data.errors) {
+                    showStatus('❌ ' + data.errors.map(function(e) { return e.message; }).join(', '), 'error');
+                } else {
+                    showStatus('❌ Something went wrong. Please try again.', 'error');
+                }
+            });
         }
-    };
+    })
+    .catch(function(error) {
+        console.error('AJAX failed, falling back to native submit:', error);
+        form.submit();
+    });
+});
+
+// ===== PAYMENT HANDLING - FIXED TO USE LOOKUP KEYS =====
+const BACKEND_URL = 'https://pure-dispatch-stripe-backend.vercel.app';
+
+var currentPeriods = {
+    founder: 'monthly',
+    standard: 'monthly'
+};
+
+window.selectPeriod = function(button, tier, period) {
+    var container = button.parentElement;
+    var buttons = container.querySelectorAll('.period-btn');
+    buttons.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    button.classList.add('active');
     
-    window.handlePayment = function(priceKey, planName, button) {
-        var actualPriceId = PRICE_CONFIG[priceKey] ? PRICE_CONFIG[priceKey].priceId : null;
+    currentPeriods[tier] = period;
+    
+    if (tier === 'founder') {
+        var priceEl = document.getElementById('founder-price');
+        var savingsEl = document.getElementById('founder-savings');
+        var btnEl = document.getElementById('founder-btn');
         
-        if (!actualPriceId) {
-            alert('Invalid pricing option. Please try again.');
-            return;
+        if (period === 'monthly') {
+            priceEl.innerHTML = '$50<span>/month</span>';
+            savingsEl.textContent = 'Pay monthly or save $300/year!';
+            btnEl.textContent = 'Get Started - $50/mo';
+            btnEl.setAttribute('onclick', "handlePayment('early_founder_monthly', this)");
+        } else {
+            priceEl.innerHTML = '$300<span>/year</span>';
+            savingsEl.textContent = 'Save $300/year vs monthly!';
+            btnEl.textContent = 'Get Started - $300/yr';
+            btnEl.setAttribute('onclick', "handlePayment('early_founder_annual', this)");
         }
+    } else {
+        var priceEl = document.getElementById('standard-price');
+        var savingsEl = document.getElementById('standard-savings');
+        var btnEl = document.getElementById('standard-btn');
         
-        button.disabled = true;
-        button.classList.add('loading');
-        var originalText = button.textContent;
-        button.textContent = 'Processing...';
-        
-        fetch(BACKEND_URL + '/api/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                priceId: actualPriceId,
-                planName: planName
-            })
+        if (period === 'monthly') {
+            priceEl.innerHTML = '$99.99<span>/month</span>';
+            savingsEl.textContent = 'Pay monthly or save $400/year!';
+            btnEl.textContent = 'Get Started - $99.99/mo';
+            btnEl.setAttribute('onclick', "handlePayment('standard_monthly', this)");
+        } else {
+            priceEl.innerHTML = '$799.99<span>/year</span>';
+            savingsEl.textContent = 'Save $400/year vs monthly!';
+            btnEl.textContent = 'Get Started - $799.99/yr';
+            btnEl.setAttribute('onclick', "handlePayment('standard_annual', this)");
+        }
+    }
+};
+
+window.handlePayment = function(lookupKey, button) {
+    console.log('🔵 Starting payment with lookup_key:', lookupKey);
+    
+    button.disabled = true;
+    button.classList.add('loading');
+    var originalText = button.textContent;
+    button.textContent = 'Processing...';
+    
+    fetch(BACKEND_URL + '/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            lookup_key: lookupKey
         })
-        .then(function(response) {
-            if (!response.ok) {
-                return response.text().then(function(text) {
-                    throw new Error('Payment failed: ' + text);
-                });
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error('No checkout URL received');
-            }
-        })
-        .catch(function(error) {
-            console.error('Payment error:', error);
-            button.disabled = false;
-            button.classList.remove('loading');
-            button.textContent = originalText;
-            alert('Unable to process payment. Please try again or contact support.');
-        });
-    };
-    </script>
-</body>
-</html>
+    })
+    .then(function(response) {
+        console.log('📡 Backend response status:', response.status);
+        if (!response.ok) {
+            return response.text().then(function(text) {
+                console.error('❌ Backend error:', text);
+                throw new Error('Payment failed: ' + text);
+            });
+        }
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('✅ Backend response:', data);
+        if (data.url) {
+            console.log('🚀 Redirecting to:', data.url);
+            window.location.href = data.url;
+        } else {
+            throw new Error('No checkout URL received');
+        }
+    })
+    .catch(function(error) {
+        console.error('💥 Payment error:', error);
+        button.disabled = false;
+        button.classList.remove('loading');
+        button.textContent = originalText;
+        alert('Unable to process payment. Please try again or contact support.');
+    });
+};
+</script>
+```
+
