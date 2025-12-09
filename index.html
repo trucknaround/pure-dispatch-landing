@@ -133,9 +133,10 @@
         .nav-logo-img {
             width: 40px;
             height: 40px;
-            filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.5)) brightness(1.2) contrast(1.3);
-            mix-blend-mode: darken;
-            background: transparent;
+            filter: drop-shadow(0 2px 4px rgba(34, 197, 94, 0.5));
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 50%;
+            padding: 4px;
         }
         .hero-logo-img {
             width: 80px;
@@ -143,9 +144,10 @@
             display: inline-block;
             vertical-align: middle;
             margin-left: 1rem;
-            filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.6)) brightness(1.2) contrast(1.3);
-            mix-blend-mode: darken;
-            background: transparent;
+            filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.6));
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 50%;
+            padding: 8px;
         }
         .nav-links {
             display: flex;
@@ -851,13 +853,9 @@
             <div class="pricing-grid">
                 <div class="pricing-card featured">
                     <h3>Early Founder</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'founder', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'founder', 'annual')">Annual</button>
-                    </div>
-                    <div class="trial-badge">3-Day Free Trial</div>
-                    <div class="pricing-amount" id="founder-price">$50<span>/month</span></div>
-                    <div class="pricing-savings" id="founder-savings">Pay monthly or save $300/year!</div>
+                    <div class="trial-badge">7-Day Free Trial</div>
+                    <div class="pricing-amount" id="founder-price">$19.99<span>/month</span></div>
+                    <div class="pricing-savings" id="founder-savings">Locked-in pricing for life!</div>
                     <div class="founder-info">
                         <strong>🎯 Founder Tier Benefits:</strong>
                         • Locked-in pricing for life<br>
@@ -875,18 +873,14 @@
                         <li>Priority support</li>
                     </ul>
                     <button class="btn btn-primary payment-btn" id="founder-btn" onclick="handlePayment('founderMonthly', 'Early Founder Monthly', this)">
-                        Get Started - $50/mo
+                        Get Started - $19.99/mo
                     </button>
                 </div>
                 <div class="pricing-card">
                     <h3>Standard Plan</h3>
-                    <div class="pricing-period-selector">
-                        <button class="period-btn active" onclick="selectPeriod(this, 'standard', 'monthly')">Monthly</button>
-                        <button class="period-btn" onclick="selectPeriod(this, 'standard', 'annual')">Annual</button>
-                    </div>
-                    <div class="trial-badge">3-Day Free Trial</div>
-                    <div class="pricing-amount" id="standard-price">$99.99<span>/month</span></div>
-                    <div class="pricing-savings" id="standard-savings">Pay monthly or save $400/year!</div>
+                    <div class="trial-badge">7-Day Free Trial</div>
+                    <div class="pricing-amount" id="standard-price">$39.99<span>/month</span></div>
+                    <div class="pricing-savings" id="standard-savings">Full-featured plan!</div>
                     <ul class="pricing-features">
                         <li>Everything in Early Founder</li>
                         <li>Priority onboarding</li>
@@ -896,7 +890,7 @@
                         <li>API access</li>
                     </ul>
                     <button class="btn btn-secondary payment-btn" id="standard-btn" onclick="handlePayment('standardMonthly', 'Standard Monthly', this)">
-                        Get Started - $99.99/mo
+                        Get Started - $39.99/mo
                     </button>
                 </div>
             </div>
@@ -1129,66 +1123,12 @@
         founderMonthly: {
             priceId: 'price_1SXTFFRuSbEpSEFlvcEgHBoe',
             name: 'Early Founder Monthly',
-            amount: '$50/mo'
-        },
-        founderAnnual: {
-            priceId: 'price_1SXTGvRuSbEpSEFldGzrKqmY',
-            name: 'Early Founder Annual',
-            amount: '$300/yr'
+            amount: '$19.99/mo'
         },
         standardMonthly: {
             priceId: 'price_1SXTIDRuSbEpSEFlLw7skO7n',
             name: 'Standard Monthly',
-            amount: '$99.99/mo'
-        },
-        standardAnnual: {
-            priceId: 'price_1SXTJxRuSbEpSEFlPbn7mOND',
-            name: 'Standard Annual',
-            amount: '$799.99/yr'
-        }
-    };
-    var currentPeriods = {
-        founder: 'monthly',
-        standard: 'monthly'
-    };
-    window.selectPeriod = function(button, tier, period) {
-        var container = button.parentElement;
-        var buttons = container.querySelectorAll('.period-btn');
-        buttons.forEach(function(btn) {
-            btn.classList.remove('active');
-        });
-        button.classList.add('active');
-        currentPeriods[tier] = period;
-        if (tier === 'founder') {
-            var priceEl = document.getElementById('founder-price');
-            var savingsEl = document.getElementById('founder-savings');
-            var btnEl = document.getElementById('founder-btn');
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$50<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $300/year!';
-                btnEl.textContent = 'Get Started - $50/mo';
-                btnEl.setAttribute('onclick', "handlePayment('founderMonthly', 'Early Founder Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$300<span>/year</span>';
-                savingsEl.textContent = 'Save $300/year vs monthly!';
-                btnEl.textContent = 'Get Started - $300/yr';
-                btnEl.setAttribute('onclick', "handlePayment('founderAnnual', 'Early Founder Annual', this)");
-            }
-        } else {
-            var priceEl = document.getElementById('standard-price');
-            var savingsEl = document.getElementById('standard-savings');
-            var btnEl = document.getElementById('standard-btn');
-            if (period === 'monthly') {
-                priceEl.innerHTML = '$99.99<span>/month</span>';
-                savingsEl.textContent = 'Pay monthly or save $400/year!';
-                btnEl.textContent = 'Get Started - $99.99/mo';
-                btnEl.setAttribute('onclick', "handlePayment('standardMonthly', 'Standard Monthly', this)");
-            } else {
-                priceEl.innerHTML = '$799.99<span>/year</span>';
-                savingsEl.textContent = 'Save $400/year vs monthly!';
-                btnEl.textContent = 'Get Started - $799.99/yr';
-                btnEl.setAttribute('onclick', "handlePayment('standardAnnual', 'Standard Annual', this)");
-            }
+            amount: '$39.99/mo'
         }
     };
     window.handlePayment = function(priceKey, planName, button) {
