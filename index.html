@@ -968,7 +968,7 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p>Email: <a href="/cdn-cgi/l/email-protection#60030f0e14010314201015120504091310011403084e030f4e13091405" style="color: #d1d5db;"><span class="__cf_email__" data-cfemail="a0c3cfced4c1c3d4e0d0d5d2c5c4c9d3d0c1d4c3c88ec3cf8ed3c9d4c5">[email&#160;protected]</span></a></p>
+                <p>Email: <a href="mailto:contact@puredispatch.co.site" style="color: #d1d5db;">contact@puredispatch.co.site</a></p>
                 <p>Location: Gloucester City, NJ</p>
             </div>
         </div>
@@ -976,7 +976,7 @@
             <p>&copy; 2025 Pure Dispatch. All rights reserved.</p>
         </div>
     </footer>
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
     // ===== STARFIELD =====
     (function() {
         var starfield = document.getElementById('starfield');
@@ -1168,3 +1168,12 @@
         })
         .catch(function(error) {
             console.error('Payment error:', error);
+                  alert('Payment failed: ' + error.message);
+            button.disabled = false;
+            button.classList.remove('loading');
+            button.textContent = originalText;
+        });
+    };
+    </script>
+</body>
+</html>
