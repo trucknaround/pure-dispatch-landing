@@ -726,9 +726,11 @@
     
    <nav class="nav">
         <div class="nav-logo">
-            <img src="https://raw.githubusercontent.com/trucknaround/pure-dispatch-landing/main/1765292235-removebg-preview.png" alt="Pure Dispatch Logo" style="height: 40px; vertical-align: middle; margin-right: 8px;">
-            PURE DISPATCH
-        </div>
+    <img src="https://i.postimg.cc/g0VG0rdv/1765292235-removebg-preview.png" 
+         alt="Pure Dispatch Logo" 
+         style="height: 40px; width: 40px; object-fit: contain; vertical-align: middle; margin-right: 8px; border-radius: 50%; background: rgba(0,0,0,0.8); padding: 4px;">
+    PURE DISPATCH
+</div>
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#integrations">Integrations</a></li>
@@ -742,7 +744,7 @@
                     <li><a href="support.html">Support</a></li>
                 </ul>
             </li>
-            <li><a href="https://pure-dispatch-app.vercel.app" target="_blank">Login to App</a></li>
+            <li><a href="https://pure-dispatch.vercel.app" target="_blank">Login to App</a></li>
             <li><a href="affiliate.html">Affiliate Program</a></li>
         </ul>
         <button class="nav-cta" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
@@ -750,7 +752,12 @@
     
     <div class="content">
         <section class="hero">
-            <h1 class="logo">PURE DISPATCH</h1>
+            <h1 class="logo">
+    <img src="https://i.postimg.cc/g0VG0rdv/1765292235-removebg-preview.png" 
+         alt="Pure Dispatch Logo" 
+         style="height: 80px; width: 80px; display: inline-block; vertical-align: middle; margin-right: 1rem; border-radius: 50%; background: rgba(0,0,0,0.9); padding: 8px;">
+    PURE DISPATCH
+</h1>
             <p class="tagline">Your AI-Powered <span class="glossy-text">Virtual Dispatcher</span></p>
             <p class="subtitle">Stop waiting on hold. Stop missing loads. Get an AI dispatcher in your pocket.</p>
             <div class="cta-container">
@@ -828,34 +835,38 @@
             <h2 class="section-title">SIMPLE, HONEST PRICING</h2>
             <p class="section-subtitle">No hidden fees. No per-load charges. Just one flat rate.</p>
             <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Monthly</h3>
-                    <div class="pricing-amount">$39.99<span>/month</span></div>
-                    <div class="pricing-savings">&nbsp;</div>
-                    <ul class="pricing-features">
-                        <li>Unlimited load searches</li>
-                        <li>AI-powered broker communication</li>
-                        <li>Earnings analytics dashboard</li>
-                        <li>Voice-first interface</li>
-                        <li>DOT/MC verification</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <button class="btn btn-secondary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
-                </div>
+               <div class="pricing-card">
+    <h3>Monthly</h3>
+    <div class="pricing-amount">$39.99<span>/month</span></div>
+    <div class="pricing-savings">&nbsp;</div>
+    <ul class="pricing-features">
+        <li>Unlimited load searches</li>
+        <li>AI-powered broker communication</li>
+        <li>Earnings analytics dashboard</li>
+        <li>Voice-first interface</li>
+        <li>DOT/MC verification</li>
+        <li>Priority support</li>
+    </ul>
+    <a href="https://buy.stripe.com/test_3cs8Ac7GN5I59Q45kk" target="_blank" class="btn btn-primary">
+        Subscribe Monthly
+    </a>
+</div>
                <div class="pricing-card featured">
-                    <h3>Annual</h3>
-                    <div class="pricing-amount">$399<span>/year</span></div>
-                    <div class="pricing-savings">Save $80/year (17% off!)</div>
-                    <ul class="pricing-features">
-                        <li>Everything in Monthly</li>
-                        <li>2 months FREE</li>
-                        <li>Early access to new features</li>
-                        <li>Dedicated account manager</li>
-                        <li>Custom lane alerts</li>
-                        <li>API access (coming soon)</li>
-                    </ul>
-                    <button class="btn btn-primary" onclick="document.getElementById('waitlist-form-section').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
-                </div>
+    <h3>Annual</h3>
+    <div class="pricing-amount">$399<span>/year</span></div>
+    <div class="pricing-savings">Save $80/year (17% off!)</div>
+    <ul class="pricing-features">
+        <li>Everything in Monthly</li>
+        <li>2 months FREE</li>
+        <li>Early access to new features</li>
+        <li>Dedicated account manager</li>
+        <li>Custom lane alerts</li>
+        <li>API access (coming soon)</li>
+    </ul>
+    <a href="https://buy.stripe.com/test_dR66s06CN3Ax9Q428b" target="_blank" class="btn btn-primary">
+        Subscribe Annually
+    </a>
+</div>
             </div>
         </section>
         
@@ -1001,7 +1012,8 @@
                 console.error('ElevenLabs audio playback failed, falling back to Web Speech');
                 playWebSpeechFallback();
             };
-            
+            audio.volume = 0.85;          // Clear volume
+audio.playbackRate = 0.92;    // 92% speed for smooth, natural delivery
             audio.play().catch(function(err) {
                 console.error('ElevenLabs play failed:', err);
                 playWebSpeechFallback();
@@ -1116,3 +1128,4 @@
     </script>
 </body>
 </html>
+
