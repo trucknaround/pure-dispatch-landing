@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Pure Dispatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: rgba(0, 0, 0, 0.95);
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #ffffff;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 4px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #ffffff;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.75rem;
+            color: #22c55e;
+            margin: 2.5rem 0 1rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            color: #b5b5b5;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .contact-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .contact-card:hover {
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .contact-card h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .contact-card p {
+            color: #b5b5b5;
+            margin-bottom: 1rem;
+        }
+        .contact-card a {
+            color: #22c55e;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .contact-card a:hover {
+            text-decoration: underline;
+        }
+        .faq-section {
+            margin: 3rem 0;
+        }
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .faq-item h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .faq-item p {
+            color: #b5b5b5;
+        }
+        .app-link {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 2rem 0;
+            transition: box-shadow 0.3s;
+        }
+        .app-link:hover {
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid #ffffff;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #22c55e;
+            margin: 0 1rem;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            main { padding: 2rem 1.5rem; }
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <img src="https://i.postimg.cc/g0VG0rdv/1765292235-removebg-preview.png" alt="Pure Dispatch Logo" class="logo-img">
+                <span class="logo-text">PURE DISPATCH</span>
+            </a>
+            <nav>
+                <a href="/">← Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Support & Help Center</h1>
+        <p class="subtitle">We're here to help you get the most out of Pure Dispatch. Find answers, contact support, or access resources.</p>
+
+        <h2>Contact Us</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email Support</h3>
+                <p>Get help with account issues, billing, or technical problems</p>
+                <a href="mailto:contact@puredispatch.co.site">contact@puredispatch.co.site</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h3>In-App Chat</h3>
+                <p>Chat with Pure, our AI assistant, 24/7 for instant help</p>
+                <a href="https://pure-dispatch.vercel.app" target="_blank">Open App →</a>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📱</div>
+                <h3>Phone Support</h3>
+                <p>Call us for urgent account or billing issues</p>
+                <p style="color: #22c55e; font-weight: 600;">Coming Soon</p>
+            </div>
+        </div>
+
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-section">
+            <div class="faq-item">
+                <h3>How do I get started with Pure Dispatch?</h3>
+                <p>Sign up at <a href="https://pure-dispatch.vercel.app" style="color: #22c55e;">pure-dispatch.vercel.app</a>, complete your carrier registration with MC/DOT numbers, and subscribe to a plan. Pure will guide you through the setup process.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What subscription plans are available?</h3>
+                <p>We offer two plans: <strong>Monthly</strong> at $39.99/month and <strong>Annual</strong> at $399/year (save 17%). Both include unlimited load searches, AI-powered dispatch, and all core features.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How does the AI calling feature work?</h3>
+                <p>Pure uses advanced AI (powered by ElevenLabs and Twilio) to call brokers on your behalf, negotiate rates, and confirm load details. All calls are recorded for your records and quality assurance.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Which load boards does Pure Dispatch integrate with?</h3>
+                <p>We're launching with DAT and 123Loadboard integration in Q1-Q2 2026. Additional load boards will be added based on user demand.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is my data secure?</h3>
+                <p>Yes. We use bank-level encryption (TLS/SSL), secure password hashing, and industry-standard security practices. See our <a href="/privacy.html" style="color: #22c55e;">Privacy Policy</a> for details.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I cancel my subscription anytime?</h3>
+                <p>Yes. You can cancel anytime from your account settings. Access continues until the end of your billing period. No refunds for partial months.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Does Pure Dispatch work on mobile?</h3>
+                <p>Yes! Pure Dispatch works on any device with a web browser. For the best experience, use Chrome or Safari on iOS/Android.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do I verify my carrier credentials?</h3>
+                <p>During registration, enter your MC and DOT numbers. Pure automatically verifies them with FMCSA. You'll see a green checkmark when verified.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What if I have a problem with a load or broker?</h3>
+                <p>Contact us immediately at <a href="mailto:contact@puredispatch.co.site" style="color: #22c55e;">contact@puredispatch.co.site</a>. We'll review call recordings and help resolve disputes. However, Pure Dispatch is not responsible for broker actions.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I get a refund?</h3>
+                <p>We offer refunds on a case-by-case basis within 7 days of initial subscription. Contact <a href="mailto:contact@puredispatch.co.site" style="color: #22c55e;">contact@puredispatch.co.site</a> to request a refund.</p>
+            </div>
+        </div>
+
+        <h2>Resources</h2>
+        <p>Looking for more help? Check out these resources:</p>
+        <ul style="margin: 1rem 0 1rem 2rem; color: #b5b5b5;">
+            <li><a href="/terms.html" style="color: #22c55e;">Terms of Service</a> - Understand your rights and responsibilities</li>
+            <li><a href="/privacy.html" style="color: #22c55e;">Privacy Policy</a> - Learn how we protect your data</li>
+            <li><a href="/" style="color: #22c55e;">Feature Overview</a> - Explore what Pure Dispatch can do</li>
+        </ul>
+
+        <h2>Login to Your Account</h2>
+        <p>Already have an account? Access Pure Dispatch now:</p>
+        <a href="https://pure-dispatch.vercel.app" target="_blank" class="app-link">Login to Pure Dispatch →</a>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #333; color: #9ca3af;">
+            <strong>Business Hours:</strong> Email support responses within 24 hours on business days<br>
+            <strong>AI Chat:</strong> Available 24/7 in the app
+        </p>
+    </main>
+
+    <footer>
+        <p>© 2026 Pure Dispatch. All rights reserved.</p>
+        <p>
+            <a href="/terms.html">Terms of Service</a> ·
+            <a href="/privacy.html">Privacy Policy</a> ·
+            <a href="/support.html">Support</a>
+        </p>
+    </footer>
+</body>
+</html>
