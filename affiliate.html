@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Program - Pure Dispatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: rgba(0, 0, 0, 0.95);
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #ffffff;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 4px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.6);
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+        nav a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #ffffff;
+        }
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.75rem;
+            color: #22c55e;
+            margin: 2.5rem 0 1rem;
+        }
+        p {
+            margin-bottom: 1rem;
+            color: #b5b5b5;
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .benefit-card:hover {
+            border-color: #22c55e;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .benefit-card h3 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .benefit-card p {
+            color: #b5b5b5;
+        }
+        .commission-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .commission-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 0.5rem;
+        }
+        .commission-text {
+            color: #d1d5db;
+            font-size: 1.1rem;
+        }
+        ul {
+            margin: 1rem 0 1rem 2rem;
+            color: #b5b5b5;
+        }
+        li {
+            margin-bottom: 0.75rem;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #ffffff, #f3f4f6);
+            color: #000000;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 2rem 0;
+            transition: box-shadow 0.3s;
+        }
+        .cta-button:hover {
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.4);
+        }
+        .coming-soon {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #666;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .coming-soon h3 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid #ffffff;
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #22c55e;
+            margin: 0 1rem;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            main { padding: 2rem 1.5rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .commission-amount { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <img src="https://i.postimg.cc/g0VG0rdv/1765292235-removebg-preview.png" alt="Pure Dispatch Logo" class="logo-img">
+                <span class="logo-text">PURE DISPATCH</span>
+            </a>
+            <nav>
+                <a href="/">← Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Affiliate Program</h1>
+        <p class="subtitle">Earn recurring commissions by referring owner-operators and small carriers to Pure Dispatch.</p>
+
+        <div class="commission-box">
+            <div class="commission-amount">20%</div>
+            <div class="commission-text">Recurring Commission on All Referrals</div>
+        </div>
+
+        <h2>Why Join Our Affiliate Program?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">💰</div>
+                <h3>High Commissions</h3>
+                <p>Earn 20% recurring revenue for every customer you refer — for as long as they stay subscribed.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">🔁</div>
+                <h3>Passive Income</h3>
+                <p>Get paid monthly for every active subscriber. One referral can generate income for years.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">📊</div>
+                <h3>Real-Time Dashboard</h3>
+                <p>Track clicks, conversions, and earnings in real-time with our affiliate portal.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">🎯</div>
+                <h3>Marketing Support</h3>
+                <p>Get banners, email templates, and promotional materials to maximize conversions.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">⚡</div>
+                <h3>Fast Payouts</h3>
+                <p>Monthly payouts via PayPal, Stripe, or direct deposit. No minimum threshold.</p>
+            </div>
+
+            <div class="benefit-card">
+                <div class="benefit-icon">🤝</div>
+                <h3>Dedicated Support</h3>
+                <p>Personal affiliate manager to help you succeed and optimize your campaigns.</p>
+            </div>
+        </div>
+
+        <h2>How It Works</h2>
+        <ul>
+            <li><strong>Sign Up:</strong> Create your affiliate account and get your unique referral link</li>
+            <li><strong>Promote:</strong> Share Pure Dispatch with truckers via your blog, social media, or email list</li>
+            <li><strong>Earn:</strong> Receive 20% commission on every subscription from your referrals</li>
+            <li><strong>Get Paid:</strong> Collect monthly payouts for as long as your referrals remain active</li>
+        </ul>
+
+        <h2>Who Should Join?</h2>
+        <p>Our affiliate program is perfect for:</p>
+        <ul>
+            <li><strong>Trucking Bloggers & Influencers</strong> - Share a valuable tool with your audience</li>
+            <li><strong>Fleet Owners</strong> - Recommend Pure Dispatch to other owner-operators</li>
+            <li><strong>Industry Consultants</strong> - Add value for your trucking clients</li>
+            <li><strong>Tech Reviewers</strong> - Promote innovative AI solutions in logistics</li>
+            <li><strong>Anyone in Trucking</strong> - Help drivers save time and make more money</li>
+        </ul>
+
+        <h2>Earnings Example</h2>
+        <p>Let's say you refer 50 drivers who subscribe to the monthly plan ($39.99/month):</p>
+        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 1.5rem; margin: 1rem 0;">
+            <p style="color: #fff; font-size: 1.1rem; margin-bottom: 0.5rem;">
+                <strong>50 referrals × $39.99/month × 20% commission = $399.80/month</strong>
+            </p>
+            <p style="color: #22c55e; font-size: 1.3rem; font-weight: 700; margin-bottom: 0;">
+                That's $4,797.60/year in passive income!
+            </p>
+        </div>
+
+        <div class="coming-soon">
+            <h3>🚀 Launching Q2 2026</h3>
+            <p style="color: #b5b5b5; margin-bottom: 1.5rem;">Our affiliate program is currently in development. Join our waitlist to be notified when we launch!</p>
+            <a href="/#waitlist-form-section" class="cta-button">Join Affiliate Waitlist</a>
+        </div>
+
+        <h2>Questions About the Affiliate Program?</h2>
+        <p>Email us at <a href="mailto:contact@puredispatch.co.site" style="color: #22c55e;">contact@puredispatch.co.site</a> with "Affiliate Program" in the subject line.</p>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #333; color: #9ca3af;">
+            <strong>Note:</strong> The Pure Dispatch Affiliate Program is currently under development. All commission rates and terms are subject to change before official launch.
+        </p>
+    </main>
+
+    <footer>
+        <p>© 2026 Pure Dispatch. All rights reserved.</p>
+        <p>
+            <a href="/terms.html">Terms of Service</a> ·
+            <a href="/privacy.html">Privacy Policy</a> ·
+            <a href="/support.html">Support</a>
+        </p>
+    </footer>
+</body>
+</html>
