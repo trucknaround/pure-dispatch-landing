@@ -105,7 +105,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         break;
       }
 
-      case 'customer.subscription.deleted': {
+      case 'customer.subscription.canceled': {
         const subscription = event.data.object as Stripe.Subscription;
         
         await supabase.from('subscriptions').update({
