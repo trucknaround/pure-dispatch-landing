@@ -16,7 +16,19 @@ const supabase = createClient(
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', process.env.VITE_APP_URL || '*');
+ const allowedOrigins = [
+  'https://pure-dispatch-landing.vercel.app',
+  'https://pure-dispatch.vercel.app',
+  'http://localhost:3000',
+  'http://localhost:5173'
+];
+
+const origin = req.headers.origin as string;
+if (allowedOrigins.includes(origin)) {
+  res.setHeader('Access-Control-Allow-Origin', origin);
+} else {
+  res.setHeader('Access-Control-Allow-Origin', 'https://pure-dispatch.vercel.app');
+}
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'authorization, content-type');
 
