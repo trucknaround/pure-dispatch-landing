@@ -1,13 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-interface UserSession {
-  authenticated: boolean;
-  subscription_status: string | null;
-  plan_type: string | null;
-  user_id: string | null;
-}
-
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -15,20 +8,19 @@ const supabase = createClient(
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
+  const allowedOrigins = [
+    'https://pure-dispatch-landing.vercel.app',
+    'https://pure-dispatch.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ];
+  const origin = req.headers.origin as string;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://pure-dispatch.vercel.app');
+  }
   res.setHeader('Access-Control-Allow-Credentials', 'true');
- const allowedOrigins = [
-  'https://pure-dispatch-landing.vercel.app',
-  'https://pure-dispatch.vercel.app',
-  'http://localhost:3000',
-  'http://localhost:5173'
-];
-
-const origin = req.headers.origin as string;
-if (allowedOrigins.includes(origin)) {
-  res.setHeader('Access-Control-Allow-Origin', origin);
-} else {
-  res.setHeader('Access-Control-Allow-Origin', 'https://pure-dispatch.vercel.app');
-}
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'authorization, content-type');
 
@@ -49,28 +41,53 @@ if (allowedOrigins.includes(origin)) {
         subscription_status: null,
         plan_type: null,
         user_id: null
-      } as UserSession);
+      });
     }
 
     const token = authHeader.substring(7);
 
-    // Verify JWT and get user
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    // Decode custom JWT to get userId
+    // Your backend JWT has payload: {userId, email, iat, exp}
+    let userId: string;
+    try {
+      const base64Payload = token.split('.')[1];
+      const payload = JSON.parse(
+        Buffer.from(base64Payload, 'base64').toString('utf-8')
+      );
+      userId = payload.userId;
 
-    if (authError || !user) {
+      // Check token expiry
+      if (payload.exp && Date.now() / 1000 > payload.exp) {
+        return res.status(200).json({
+          authenticated: false,
+          subscription_status: null,
+          plan_type: null,
+          user_id: null
+        });
+      }
+    } catch (decodeError) {
       return res.status(200).json({
         authenticated: false,
         subscription_status: null,
         plan_type: null,
         user_id: null
-      } as UserSession);
+      });
     }
 
-    // Fetch subscription status
+    if (!userId) {
+      return res.status(200).json({
+        authenticated: false,
+        subscription_status: null,
+        plan_type: null,
+        user_id: null
+      });
+    }
+
+    // Fetch subscription status from Supabase using userId
     const { data: subscription, error: subError } = await supabase
       .from('subscriptions')
       .select('subscription_status, plan_type')
-      .eq('user_id', user.id)
+      .eq('user_id', userId)
       .single();
 
     if (subError || !subscription) {
@@ -79,8 +96,8 @@ if (allowedOrigins.includes(origin)) {
         authenticated: true,
         subscription_status: null,
         plan_type: null,
-        user_id: user.id
-      } as UserSession);
+        user_id: userId
+      });
     }
 
     // Authenticated with subscription
@@ -88,8 +105,8 @@ if (allowedOrigins.includes(origin)) {
       authenticated: true,
       subscription_status: subscription.subscription_status,
       plan_type: subscription.plan_type,
-      user_id: user.id
-    } as UserSession);
+      user_id: userId
+    });
 
   } catch (error) {
     console.error('Error in /api/me:', error);
