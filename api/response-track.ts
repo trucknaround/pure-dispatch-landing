@@ -1,15 +1,3 @@
-// ============================================
-// API: /api/response-track.ts
-// Deploy to: pure-dispatch-landing/api/response-track.ts
-// ============================================
-// Tracks broker responses and updates CRM + outreach status.
-//
-//   POST action=mark-responded  → Mark a broker as having responded
-//   POST action=mark-opened     → Mark email as opened (webhook from SendGrid)
-//   POST action=log-response    → Log broker's response text and sentiment
-//   GET  ?action=stats          → Get outreach stats for dashboard
-// ============================================
-
 import { createClient } from '@supabase/supabase-js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import jwt from 'jsonwebtoken';
