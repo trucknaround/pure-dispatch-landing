@@ -18,7 +18,7 @@ function getUserId(req: VercelRequest): string | null {
   try {
     const token = authHeader.split(' ')[1];
     const decoded: any = jwt.verify(token, process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || '');
-    return decoded.sub || decoded.user_id || null;
+   return decoded.sub || decoded.user_id || decoded.userId || null;
   } catch { return null; }
 }
 
