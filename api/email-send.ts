@@ -25,11 +25,18 @@ const supabase = createClient(
 function getUserId(req: VercelRequest): string | null {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith('Bearer ')) return null;
+
   try {
-    const token = authHeader.split(' ')[1];
-    const decoded: any = jwt.verify(token, process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || '');
-    return decoded.sub || decoded.user_id || decoded.userId || null;
-  } catch { return null; }
+    const token = authHeader.substring(7);
+    const base64Payload = token.split('.')[1];
+    const payload = JSON.parse(Buffer.from(base64Payload, 'base64').toString('utf-8'));
+    
+    if (payload.exp && Date.now() / 1000 > payload.exp) return null;
+    
+    return payload.userId || null;
+  } catch {
+    return null;
+  }
 }
 
 // ─────────────────────────────────────────────
