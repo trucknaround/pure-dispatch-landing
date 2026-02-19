@@ -26,7 +26,7 @@ function getUserId(req: VercelRequest): string | null {
       token,
       process.env.JWT_SECRET || process.env.SUPABASE_JWT_SECRET || ''
     );
-    return decoded.sub || decoded.user_id || null;
+   return decoded.sub || decoded.user_id || decoded.userId || null;
   } catch {
     return null;
   }
