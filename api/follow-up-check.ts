@@ -1,21 +1,3 @@
-// ============================================
-// API: /api/follow-up-check.ts
-// Deploy to: pure-dispatch-landing/api/follow-up-check.ts
-// ============================================
-// CRON JOB — runs daily at 9 AM UTC (via Vercel Cron)
-// Checks for scheduled follow-up emails that are due and sends them.
-//
-// Add to vercel.json:
-// {
-//   "crons": [
-//     { "path": "/api/follow-up-check", "schedule": "0 9 * * *" }
-//   ]
-// }
-//
-// Can also be called manually:
-//   GET /api/follow-up-check → runs the check now
-// ============================================
-
 import { createClient } from '@supabase/supabase-js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import sgMail from '@sendgrid/mail';
